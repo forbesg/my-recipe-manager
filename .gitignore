@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /src/firebase/config.js
+/functions/node_modules
 
 # testing
 /coverage
