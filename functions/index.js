@@ -34,7 +34,6 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
   }
 
   // Get the file name.
-  console.log(object)
   let fileName = filePath.split('/').pop();
 
   // Exit if the image is already a thumbnail.
