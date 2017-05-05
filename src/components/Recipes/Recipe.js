@@ -44,8 +44,8 @@ class Recipe extends Component {
     if (this.props.user.uid !== this.state.recipe.owner.uid) {
       return console.log('Unable to delete as you are not the owner of the recipe.');
     }
-    let imageName = this.state.recipe.image.fileName;
-    let thumbnailName = this.state.recipe.thumbnail.fileName;
+    let imageName = this.state.recipe.image ? this.state.recipe.image.fileName : null;
+    let thumbnailName = this.state.recipe.thumbnail ? this.state.recipe.thumbnail.fileName : null;
     let recipeKey = this.props.match.params.id;
     let usersRecipesRef = firebase.database().ref(`/users/${this.props.user.uid}/recipes`);
     let recipeRef = firebase.database().ref(`/recipes/${recipeKey}`);
@@ -55,17 +55,22 @@ class Recipe extends Component {
         snap.forEach(recipe => {
           if (recipe.val() === recipeKey) {
             usersRecipesRef.child(recipe.key).remove();
-            let recipeStorageRef = storage().ref(`recipes/${recipeKey}`);
-            recipeStorageRef.child(imageName).delete().then(() => {
-              console.log('Recipe Image Deleted');
-              recipeStorageRef.child(`thumbnail/${thumbnailName}`).delete().then(() => {
-                console.log('Recipe Thumbnail Deleted');
+            // If recipe has image and thumbnail remove these from cloud storage
+            if (imageName) {
+              let recipeStorageRef = storage().ref(`recipes/${recipeKey}`);
+              recipeStorageRef.child(imageName).delete().then(() => {
+                console.log('Recipe Image Deleted');
+                if (thumbnailName) {
+                  recipeStorageRef.child(`thumbnail/${thumbnailName}`).delete().then(() => {
+                    console.log('Recipe Thumbnail Deleted');
+                  }).catch(err => {
+                    console.log(err);
+                  });
+                }
               }).catch(err => {
                 console.log(err);
-              })
-            }).catch(err => {
-              console.log(err);
-            });
+              });
+            }
           }
         });
       }, err => {
