@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+h1, h2, h3, h4 {
+  /*color: #5F7468;*/
+  color: #713d0e;
+  font-weight: 100;
+}
+h1 {
+  font-size: 1.8em;
+}
+h2 {
+  font-size: 1.6em;
+}
+h3 {
+  font-size: 1.4em;
+}
+h4 {
+  font-size: 1.3em;
+}
+
+a {
+  outline: none;
+}
+
+a.button, button, input[type=submit] {
+  background-color: #fff;
+  border: 1px solid #4E6E58;
+  color: #4E6E58;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.8em;
+  padding: 5px 10px;
+  margin: 5px 0;
+  outline: none;
+  text-decoration: none;
+  transition: background-color 0.2s linear, color 0.2s linear;
+}
+
+a.button:hover, button:hover, input[type=submit]:hover {
+  background-color: #4E6E58;
+  color: #fff;
+}
+
+.loading-element {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.center-text {
+  text-align: center;
+}

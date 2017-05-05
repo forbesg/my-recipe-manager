@@ -1,0 +1,38 @@
+[
+  {
+    "cuisine": "British",
+    "flag": "gb"
+  },
+  {
+    "cuisine": "Indian",
+    "flag": "in"
+  },
+  {
+    "cuisine": "Thai",
+    "flag": "th"
+  },
+  {
+    "cuisine": "Chinese",
+    "flag": "cn"
+  },
+  {
+    "cuisine": "Greek",
+    "flag": "gr"
+  },
+  {
+    "cuisine": "Italian",
+    "flag": "it"
+  },
+  {
+    "cuisine": "Mexican",
+    "flag": "mx"
+  },
+  {
+    "cuisine": "Moroccan",
+    "flag": "ma"
+  },
+  {
+    "cuisine": "Spanish",
+    "flag": "es"
+  }
+]

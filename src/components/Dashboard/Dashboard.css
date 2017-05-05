@@ -1,0 +1,60 @@
+.dashboard {
+
+}
+.dashboard section {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.dashboard .users-stats, .dashboard .users-recipes, .dashboard .user-favorites {
+  flex: 1 0 300px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.dashboard section header {
+  background-color: #cac1b1;
+  border-bottom: 1px solid #274038;
+  color: #fff;
+  display: flex;
+  margin-bottom: 30px;
+}
+.dashboard section header h4 {
+  color: #274038;
+  padding: 10px;
+  margin: 0;
+}
+.dashboard table a {
+  color: #274038;
+  text-decoration: none;
+}
+.dashboard table a:after {
+  font-family: FontAwesome;
+  content: "\f114";
+  padding-left: 10px;
+}
+.dashboard table a:hover:after {
+  font-family: FontAwesome;
+  content: "\f115";
+}
+.dashboard span.pill-number {
+  display: inline-block;
+  color: #274038;
+  float: right;
+  margin: 0 5px;
+  background-color: #bcd0c7;
+  border: 1px solid #274038;
+  border-radius: 50%;
+  line-height: 18px;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  text-shadow: 0px 1px 0px #e3ebe7;
+}
+header h4 i.fa {
+  text-shadow: 0px 1px 0px #e3ebe7;
+  width: 20px;
+  height: 20px;
+}
+.dashboard p {
+  line-height: 20px;
+}

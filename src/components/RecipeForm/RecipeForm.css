@@ -1,0 +1,165 @@
+form {
+  max-width: 700px;
+  margin: auto;
+}
+
+form div {
+  line-height: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+form p.minutes {
+  margin-top: -10px;
+  margin-bottom: 30px;
+  font-size: 0.8em;
+}
+
+form input {
+  border: none;
+  padding: 5px;
+  outline: none;
+}
+
+form input[type=text] {
+  background-color: #f9f9f9;
+  border: none;
+  border-bottom: 2px solid gray;
+  padding: 5px;
+  outline: none;
+}
+form input[type=text]:focus {
+  border-color: #274038;
+}
+form div.add-ingredients input, form div.add-method input {
+  flex:1;
+  margin: 0 20px;
+}
+form .list-item, form .list-item {
+  line-height: 14px;
+}
+form .list-item p, form .list-item p {
+  margin: 0;
+}
+form div.upload-image {
+  position: relative;
+}
+form input#image {
+  width: 100%;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+form input#image + label {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  background-color: #bcd0c7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 100%;
+  transition: background-color 0.2s linear;
+}
+
+form input#image:focus + label,
+form input#image + label:hover {
+  cursor: pointer;
+  background-color: #9E9E9E;
+}
+form input#image:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+
+@keyframes dropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+.overlay header {
+  display: flex;
+  justify-content: center;
+  background-color: #5e7b6c;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.overlay .box {
+  animation: dropIn 0.5s;
+  background-color: #fff;
+  box-shadow: 0px 1px 5px #646464;
+  border: 1px solid #494949;
+  padding: 5px;
+  width: 250px;
+  opacity: 1;
+  transform: translateY(0px);
+}
+.overlay .box textarea {
+  border: 1px solid #eaeaea;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  line-height: 18px;
+  padding: 10px;
+  margin-bottom: 10px;
+  min-width: 100%;
+  max-width: 100%;
+}
+.overlay .box .box-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+/*
+ Reorder List Styles
+*/
+
+.reorder-list {
+  display: flex;
+  flex-direction: column;
+}
+.reorder-list .list-item {
+  line-height: 14px;
+}
+.reorder-list .list-item p {
+  cursor: move;
+  margin: 0;
+}
+.recipe-edit .list-item, .recipe-edit .list-item {
+
+}
+.recipe-edit .list-item i, .recipe-edit .list-item i {
+  cursor: pointer;
+  padding-left: 10px;
+}
+.recipe-edit .list-item i.fa-pencil, .recipe-edit .list-item i.fa-pencil {
+  color: #ba9e2e;
+}
+.recipe-edit .list-item i.fa-trash, .recipe-edit .list-item i.fa-trash {
+  color: #961f1f;
+}

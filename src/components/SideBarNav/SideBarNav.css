@@ -1,0 +1,66 @@
+.sidebar-navigation {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #274038;
+  color: #fff;
+  text-align: left;
+  padding: 0 10px;
+  width: 220px;
+  z-index: 0;
+}
+.sidebar-navigation h1 {
+  color: #ffffff;
+  font-size: 1.6em;
+}
+.sidebar-navigation h1 a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.2s linear;
+}
+.sidebar-navigation h1 a:hover {
+  color: #e99002;
+  text-decoration: none;
+}
+
+.sidebar-navigation ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-navigation ul li {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-navigation ul li a {
+  color: #fff;
+  display: block;
+  padding: 10px 0;
+  text-decoration: none;
+  transition: padding 0.2s linear;
+}
+
+.sidebar-navigation ul li a:hover, .sidebar-navigation ul li a.active {
+  color: #bcd0c7;
+  padding: 10px 2px;
+}
+
+.sidebar-navigation .auth-button {
+  font-size: 0.8em;
+  margin: 40px 0;
+}
+.sidebar-navigation .auth-button a {
+  background-color: #A62718;
+  color: #fff;
+  display: inline-block;
+  padding: 5px 10px;
+  text-decoration: none;
+}
+.sidebar-navigation .auth-button a.logout {
+  background-color: #e99002;
+}
+.sidebar-navigation footer {
+  text-align: center;
+}
