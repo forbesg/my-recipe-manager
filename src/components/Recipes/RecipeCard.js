@@ -25,11 +25,11 @@ class RecipeCard extends Component {
     let flagCode = getFlagCode(cuisine);
     let flagIcon = require(`../../images/flags/${flagCode}.svg`);
     let animationClass = this.state.animationClass ? this.state.animationClass : "";
-    let thumbnailImage = this.props.recipe && this.props.recipe.thumbnailURL ? (
-      <div className="recipe-thumbnail" style={{backgroundImage: `url(${this.props.recipe.thumbnailURL})`}}></div>
+    let thumbnailImage = this.props.recipe && this.props.recipe.thumbnail ? (
+      <div className="recipe-thumbnail" style={{backgroundImage: `url(${this.props.recipe.thumbnail.url})`}}></div>
     ) : null;
-    let fullImage = this.props.recipe && this.props.recipe.imageURL ? (
-      <div className="recipe-thumbnail" style={{backgroundImage: `url(${this.props.recipe.imageURL})`}}></div>
+    let fullImage = this.props.recipe && this.props.recipe.image ? (
+      <div className="recipe-thumbnail" style={{backgroundImage: `url(${this.props.recipe.image.url})`}}></div>
     ) : null;
     let image = thumbnailImage ? thumbnailImage : fullImage;
     return (

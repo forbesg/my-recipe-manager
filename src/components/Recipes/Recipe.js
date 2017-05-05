@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import AddFavorite from './AddFavorite';
 import RecipeBanner from './RecipeBanner';
 import firebase from 'firebase';
+import { storage } from '../../firebase/firebase-init';
 import RemoveFavorite from './RemoveFavorite';
 
 
@@ -43,14 +44,28 @@ class Recipe extends Component {
     if (this.props.user.uid !== this.state.recipe.owner.uid) {
       return console.log('Unable to delete as you are not the owner of the recipe.');
     }
+    let imageName = this.state.recipe.image.fileName;
+    let thumbnailName = this.state.recipe.thumbnail.fileName;
     let recipeKey = this.props.match.params.id;
     let usersRecipesRef = firebase.database().ref(`/users/${this.props.user.uid}/recipes`);
     let recipeRef = firebase.database().ref(`/recipes/${recipeKey}`);
+    console.log(this.state.recipe, imageName, thumbnailName);
     recipeRef.set(null).then(() => {
       usersRecipesRef.once('value', snap => {
         snap.forEach(recipe => {
           if (recipe.val() === recipeKey) {
             usersRecipesRef.child(recipe.key).remove();
+            let recipeStorageRef = storage().ref(`recipes/${recipeKey}`);
+            recipeStorageRef.child(imageName).delete().then(() => {
+              console.log('Recipe Image Deleted');
+              recipeStorageRef.child(`thumbnail/${thumbnailName}`).delete().then(() => {
+                console.log('Recipe Thumbnail Deleted');
+              }).catch(err => {
+                console.log(err);
+              })
+            }).catch(err => {
+              console.log(err);
+            });
           }
         });
       }, err => {

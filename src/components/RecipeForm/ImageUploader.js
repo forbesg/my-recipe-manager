@@ -67,16 +67,23 @@ class ImageUploader extends Component {
       console.log(err);
     }, () => {
       console.log("Successful upload");
-      let imageURL = uploadImage.snapshot.downloadURL;
-      recipeDatabaseRef.child(`/${this.props.recipeKey}/imageURL`).set(imageURL).then(() => {
+      let image = {
+        url: uploadImage.snapshot.downloadURL,
+        fileName: `image.${fileExt}`
+      }
+      recipeDatabaseRef.child(`/${this.props.recipeKey}/image`).set(image).then(() => {
         console.log('successfully uploaded');
-        recipeDatabaseRef.child(`/${this.props.recipeKey}/thumbnail`).set(false).then(() => {
+        recipeDatabaseRef.child(`/${this.props.recipeKey}/thumb`).set(false).then(() => {
           console.log('added thumbnail [false]');
-          recipeDatabaseRef.child(`/${this.props.recipeKey}/thumbnail`).on('value', snap => {
+          recipeDatabaseRef.child(`/${this.props.recipeKey}/thumb`).on('value', snap => {
             console.log(snap.val());
             if (snap.val()) {
               recipeStorageRef.child(`/${this.props.recipeKey}/thumbnail/thumb_image.${fileExt}`).getDownloadURL().then(url => {
-                recipeDatabaseRef.child(`/${this.props.recipeKey}/thumbnailURL`).set(url).then(() => {
+                let thumbnail = {
+                  url,
+                  fileName: `thumb_image.${fileExt}`
+                }
+                recipeDatabaseRef.child(`/${this.props.recipeKey}/thumbnail`).set(thumbnail).then(() => {
                   console.log('successfully added thumbnail url');
                 }).catch(err => {
                   console.error(err.message);
@@ -104,7 +111,7 @@ class ImageUploader extends Component {
       this.setState({
         uploadProgress: null,
         imageName: null,
-        imageURL
+        image
       });
     });
   }

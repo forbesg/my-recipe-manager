@@ -4,9 +4,9 @@ import { getFlagCode } from '../../helpers/helper-functions';
 function RecipeBanner (props) {
   let flagCode = getFlagCode(props.recipe.cuisine);
   let image = require(`../../images/flags/${flagCode}.svg`);
-  let recipeImage = props.recipe.imageURL ? (
+  let recipeImage = props.recipe.image ? (
     <div className="recipe-image" style={{
-      backgroundImage: `url(${props.recipe.imageURL})`
+      backgroundImage: `url(${props.recipe.image.url})`
     }}>
     </div>
   ) : null;

@@ -70,7 +70,7 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
       }).then(() => {
         console.log('thumb uploaded');
         // set recipe thumbnail value to true to trigger client to get thumbnail download URL
-        admin.database().ref(`/recipes/${recipeKey}/thumbnail`).set(true).then(() => {
+        admin.database().ref(`/recipes/${recipeKey}/thumb`).set(true).then(() => {
           console.log('Set trigger for client request thumbnail download url');
         }).catch(err => {
           console.log(err);
@@ -82,6 +82,7 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
 });
 // [END generateThumbnail]
 
+// Add Global Notification when new recipe added
 exports.globalNotification = functions.database.ref('/recipes/{recipeKey}').onWrite(event => {
   if (event.data.previous.exists()) {
     return;
@@ -100,4 +101,4 @@ exports.globalNotification = functions.database.ref('/recipes/{recipeKey}').onWr
     console.log(err);
   })
 
-})
+});
