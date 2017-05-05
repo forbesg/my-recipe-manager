@@ -14,6 +14,28 @@ cd my-recipe-manager
 npm install
 ```
 
+Update Firebase Cloud Functions dependencies:
+
+```bash
+cd functions
+
+npm install
+```
+
+Cloud functions requires firebase-tools to be installed and login to firebase:
+
+```bash
+npm install -g firebase-tools
+
+firebase login
+```
+
+Deploy Cloud Functions:
+
+```bash
+firebase deploy --only functions
+```
+
 To view locally:
 
 ```bash
@@ -26,7 +48,7 @@ To create production build:
 npm run build
 ```
 
-To deploy to Firebse Hosting:
+To deploy to Firebase Hosting:
 
 ```bash
 firebase deploy
