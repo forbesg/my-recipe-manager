@@ -102,25 +102,27 @@ class MainRouter extends Component {
   }
 
   componentWillMount () {
-    firebase.database().ref('/notification').on('value', snap => {
-      if (snap.val()) {
-        this.setState({
-          globalNotification: snap.val()
-        });
-        setTimeout(() => {
-          this.setState({
-            globalNotification: null
-          })
-        }, 3000);
-      }
-    }, err => {
-      console.error(err.message);
-    });
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        // Listen for global notifications
+        firebase.database().ref('/notification').on('value', snap => {
+          if (snap.val()) {
+            this.setState({
+              globalNotification: snap.val()
+            });
+            setTimeout(() => {
+              this.setState({
+                globalNotification: null
+              })
+            }, 3000);
+          }
+        }, err => {
+          console.error(err.message);
+        });
+
         return this.setState({
           user: user.providerData[0]
-        })
+        });
       }
       this.setState({
         user: null

@@ -100,5 +100,27 @@ exports.globalNotification = functions.database.ref('/recipes/{recipeKey}').onWr
   }).catch(err => {
     console.log(err);
   })
+});
 
+// Remove deleted recipes from users favorites
+exports.removeDeletedFromFavorites = functions.database.ref('/recipes/{recipeKey}').onWrite(event => {
+  // Exit function if it isn't a delete event
+  if (event.data.exists()) {
+    return;
+  }
+
+  let recipeKey = event.params.recipeKey;
+  let usersRef = admin.database().ref('/users');
+  usersRef.once('value').then(snap => {
+    snap.forEach(user => {
+      if (user.val().favorites && user.val().favorites[recipeKey]) {
+        let uid = user.val().uid;
+        usersRef.child(`${uid}/favorites/${recipeKey}`).set(null).then(() => {
+          console.log(`deleted from ${user.val().displayName}'s favorites'`);
+        }).catch(err => {
+          console.log(err);
+        });
+      }
+    });
+  });
 });
