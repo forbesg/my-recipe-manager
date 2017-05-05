@@ -199,6 +199,7 @@
 .recipe .favorite-container i {
   color: #cc0000;
   font-size: 1.4em;
+  padding-top: 2px;
   text-shadow: 0 1px 0 #e3ebe7;
 }
 .recipe .favorite-container:hover i {
