@@ -183,6 +183,7 @@
   transition: transform 0.3s ease-in, opacity 0.3s ease-in;
 }
 .recipe .favorite-container:hover::after {
+  content:attr(data-tooltip);
   position: absolute;
   display: block;
   top: 50px;
@@ -193,7 +194,6 @@
   color: #fff;
   font-size: 0.8em;
   text-align: center;
-  content:attr(data-tooltip);
   animation: fadeInDown 0.2s;
 }
 .recipe .favorite-container i {
