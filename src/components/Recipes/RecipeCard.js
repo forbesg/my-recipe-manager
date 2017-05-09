@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getFlagCode } from '../../helpers/helper-functions';
+import placeholderFoodImage from '../../images/placeholder_plate.png';
 
 class RecipeCard extends Component {
   constructor () {
@@ -27,7 +28,7 @@ class RecipeCard extends Component {
     let animationClass = this.state.animationClass ? this.state.animationClass : "";
     let thumbnailImage = this.props.recipe && this.props.recipe.thumbnail ? (
       <div className="recipe-thumbnail" style={{backgroundImage: `url(${this.props.recipe.thumbnail.url})`}}></div>
-    ) : null;
+    ) : <div className="recipe-thumbnail" style={{backgroundImage: `url(${placeholderFoodImage})`}}></div>;
     let fullImage = this.props.recipe && this.props.recipe.image ? (
       <div className="recipe-thumbnail" style={{backgroundImage: `url(${this.props.recipe.image.url})`}}></div>
     ) : null;
@@ -51,7 +52,9 @@ class RecipeCard extends Component {
         <div>
           <Link to={`/recipes/${this.props.recipe.key}`} className="button">View</Link>
         </div>
-        <img src={flagIcon} className="flag-icon" alt={`${this.props.recipe.cuisine} flag icon`}/>
+        <div className="flag-icon-container" data-tooltip={this.props.recipe.cuisine}>
+          <img src={flagIcon} className="flag-icon"  alt={`${this.props.recipe.cuisine} flag icon`}/>
+        </div>
       </div>
     );
   }

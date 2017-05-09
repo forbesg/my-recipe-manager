@@ -17,7 +17,7 @@
   opacity: 0;
 }
 .cards .recipe-card.animate {
-  animation-name: fadeInLeft;
+  animation-name: fadeIn;
   animation-duration: 0.5s;
   animation-delay: attr(data-delay);
   opacity: 1;
@@ -83,11 +83,26 @@
   bottom: 5px;
   left: 5px;
 }
-.cards .recipe-card .flag-icon {
+.cards .recipe-card .flag-icon-container {
   position: absolute;
   right: 10px;
   bottom: 10px;
   width: 20px;
+}
+.cards .recipe-card .flag-icon-container .flag-icon {
+  width: 100%;
+}
+.cards .recipe-card .flag-icon-container:hover:after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -30px;
+  right: 0;
+  background-color: #444;
+  color: #fff;
+  font-size: 0.8em;
+  padding: 5px 10px;
+  z-index: 999;
+  animation: fadeInDown 0.2s;
 }
 
 .recipe {

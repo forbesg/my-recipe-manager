@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import ImageUpload from './ImageUpload';
 import './RecipeForm.css';
 
 class AddRecipe extends Component {
@@ -188,6 +189,7 @@ class AddRecipe extends Component {
           </div>
         </form>
         {infoMessage}
+        <ImageUpload />
       </div>
 
     );

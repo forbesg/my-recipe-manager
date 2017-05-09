@@ -135,6 +135,13 @@ form input#image:focus + label {
   justify-content: space-around;
 }
 
+.overlay form {
+  animation: dropIn 0.5s ease-in-out;
+}
+.overlay form input {
+  padding: 20px;
+}
+
 /*
  Reorder List Styles
 */

@@ -53,11 +53,7 @@ class ImageUploader extends Component {
     let fileExt = files[0].name.split('.').pop();
     let uploadImage = recipeStorageRef.child(`/${this.props.recipeKey}/image.${fileExt}`).put(files[0]);
     // 100x100 Thumbnail automatically produced using cloud functions
-    /****
 
-    TODO - Get Download URL of thumbnail that has been added by cloud functions
-
-    ****/
     uploadImage.on('state_changed', snap => {
       let uploadProgress = (snap.bytesTransferred / snap.totalBytes) * 100;
       this.setState({
@@ -94,13 +90,7 @@ class ImageUploader extends Component {
             }
           }, err => {
             console.log(err.message);
-          })
-          // recipeStorageRef.child(`/${this.props.recipeKey}/thumbnail/thumb_image.${fileExt}`).getDownloadURL().then(url => {
-          //   console.log(url);
-          //   recipeDatabaseRef.child(`/${this.props.recipeKey}/thumbImageURL`).set(url)
-          // }).catch(err => {
-          //   console.log(err.message);
-          // });
+          });
         }).catch(err => {
           console.error(err.message)
         })
@@ -132,7 +122,7 @@ class ImageUploader extends Component {
     let infoText = this.state.infoText ? "Please Select an Image" : null;
 
     return (
-      <div>
+      <div className="overlay">
         {recipeImage}
         <form onSubmit={this.handleSubmit}
               onDragOver={this.handleAllowDrop}

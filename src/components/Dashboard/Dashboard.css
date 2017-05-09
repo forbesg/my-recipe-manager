@@ -10,6 +10,7 @@
   flex: 1 0 300px;
   padding: 20px;
   box-sizing: border-box;
+  animation: fadeIn 0.5s ease-in-out;
 }
 .dashboard section header {
   background-color: #cac1b1;

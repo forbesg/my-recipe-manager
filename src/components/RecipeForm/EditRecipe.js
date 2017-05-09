@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import Loader from '../Loader';
 import ReorderList from './ReorderList';
-import ImageUploader from './ImageUploader';
+import ImageUpload from './ImageUpload';
 import './RecipeForm.css';
 
 class EditRecipe extends Component {
@@ -252,7 +252,7 @@ class EditRecipe extends Component {
           </div>
         </form>
         {image}
-        <ImageUploader recipeKey={this.props.match.params.id} />
+        <ImageUpload recipeKey={this.props.match.params.id} />
         {infoMessage}
       </div>
 
