@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import Loader from '../Loader';
 import ReorderList from './ReorderList';
 import ImageUpload from './ImageUpload';
+import { deleteImageFromFirebase } from '../../helpers/firebase-helpers';
 import './RecipeForm.css';
 
 class EditRecipe extends Component {
@@ -17,6 +18,7 @@ class EditRecipe extends Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleConfirmEdit = this.handleConfirmEdit.bind(this);
     this.handleStateUpdate = this.handleStateUpdate.bind(this);
+    this.handleDeleteImage = this.handleDeleteImage.bind(this);
 
     this.state = {
       recipe: null,
@@ -37,7 +39,7 @@ class EditRecipe extends Component {
         uid: this.props.user.uid,
         name: this.props.user.displayName
       },
-      imageURL: this.state.recipe.imageURL || null,
+      image: this.state.recipe.image || null,
       prepTime: this.refs.prepTime.value,
       cookTime: this.refs.cookTime.value,
       ingredients: this.state.recipe.ingredients,
@@ -140,13 +142,27 @@ class EditRecipe extends Component {
     });
   }
 
+  handleDeleteImage (e) {
+    e.preventDefault();
+    // Remove Image and Thumbnail details from DB
+    const recipeKey = this.props.match.params.id;
+    const fileName = this.state.recipe.image.fileName;
+    deleteImageFromFirebase(recipeKey, fileName, (err) => {
+      if (err) return console.log(err);
+      console.log('Successfully deleted Everything');
+    });
+  }
+
   handleStateUpdate (recipe) {
     this.setState({
       recipe
     });
   }
+
+
+
   componentWillMount () {
-    firebase.database().ref(`/recipes/${this.props.match.params.id}`).once('value', snap => {
+    firebase.database().ref(`/recipes/${this.props.match.params.id}`).on('value', snap => {
       let key = snap.key;
       let recipe = snap.val();
       recipe.key = key;
@@ -155,10 +171,17 @@ class EditRecipe extends Component {
         ingredients: recipe.ingredients,
         methodSteps: recipe.methodSteps
       });
-    })
+    }, (err) => {
+      console.log(err.message)
+    });
+  }
+
+  componentWillUnmount () {
+    firebase.database().ref(`/recipes/${this.props.match.params.id}`).off();
   }
 
   render () {
+
     let ingredients = this.state.recipe && (this.state.recipe.ingredients && this.state.recipe.ingredients.length > 0 ) ? (
         <ReorderList handleEdit={this.handleEdit} recipe={this.state.recipe} array={this.state.recipe.ingredients} arrayName="ingredients" handleStateUpdate={this.handleStateUpdate} />
       ) : null;
@@ -170,6 +193,16 @@ class EditRecipe extends Component {
     let infoMessage = this.state.infoMessage ? (
       <div className="validation-warning">{this.state.infoMessage}</div>
     ) : null;
+
+    let imageSection = this.state.recipe && this.state.recipe.image ? (
+      <div className="outline-box">
+        <h4>Recipe Image</h4>
+        <div className="image-container">
+          <div className="delete-icon" title="Delete Image" onClick={this.handleDeleteImage}><i className="fa fa-times"></i></div>
+          <img src={this.state.recipe.image.url} alt={this.state.recipe.name}/>
+        </div>
+      </div>
+    ) : <ImageUpload recipeKey={this.props.match.params.id} />;
 
     let editOverlay = this.state.edit ? (
       <div className="overlay">
@@ -188,10 +221,6 @@ class EditRecipe extends Component {
           </section>
         </div>
       </div>
-    ) : null;
-
-    let image = this.state.recipe && this.state.recipe.thumbnailURL ? (
-      <img src={this.state.recipe.thumbnailURL} alt={this.state.recipe.name} />
     ) : null;
 
     return this.state.recipe ? (
@@ -251,8 +280,7 @@ class EditRecipe extends Component {
             <input type="submit" value="Update Recipe" />
           </div>
         </form>
-        {image}
-        <ImageUpload recipeKey={this.props.match.params.id} />
+        {imageSection}
         {infoMessage}
       </div>
 

@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { uploadImageToFirebase } from '../../helpers/firebase-helpers';
+// import { storage } from '../../firebase/firebase-init';
+
 import './ImageUpload.css';
 
 class ImageUpload extends Component {
@@ -57,8 +60,7 @@ class ImageUpload extends Component {
             });
          }, 3000);
       }
-      // this.refs.image.files = e.dataTransfer.files;
-      document.getElementById('upload-image-input').fileList =  e.dataTransfer.files[0];
+      this.refs.image.files = e.dataTransfer.files;
       this.setState({
          file,
          dragOver: false
@@ -72,9 +74,10 @@ class ImageUpload extends Component {
    handleAddImage(e) {
       e.preventDefault();
       let file = this.refs.image.files[0];
+      console.log(file)
 
       // Validate file is of type Image
-      let fileType = this.refs.image.files[0].type.split('/')[0];
+      let fileType = file.type.split('/')[0];
       if (fileType !== "image") {
          console.log("Not an image file");
          this.setState({
@@ -88,10 +91,9 @@ class ImageUpload extends Component {
             });
          }, 3000);
       }
-
       this.setState({
-         file
-      });
+        file
+      })
    }
 
    /**
@@ -99,11 +101,21 @@ class ImageUpload extends Component {
    **/
    handleUploadImage(e) {
       e.preventDefault();
+      console.log('Uploading', this.refs.image.fileList)
       if (this.refs.image.files[0]) {
-         console.log("Uploading Image " + this.refs.image.files[0].name + "");
+        let file = this.refs.image.files[0];
+         console.log("Uploading Image " + file.name + "");
          /**
             Handle image Upload
          **/
+         if (!this.props.recipeKey) return console.log("No valid recipe Key has been pass with props");
+         uploadImageToFirebase(this.props.recipeKey, file, (uploadProgress, image) => {
+           if (uploadProgress) {
+             return this.setState({
+               uploadProgress
+             })
+           }
+         });
       }
    }
    handleCancelUpload (e) {
@@ -115,7 +127,6 @@ class ImageUpload extends Component {
 
 
    render() {
-
       // Match drag over css to hover css
       let dragOverClass = this.state.dragOver
          ? `display-box drag-over`
@@ -183,25 +194,3 @@ class ImageUpload extends Component {
 }
 
 export default ImageUpload;
-
-// class App extends React.Component {
-//    constructor() {
-//       super();
-//       this.state = {};
-//    }
-//    componentWillMount() {}
-//
-//    render() {
-//       return (
-//          <div style={{ textAlign: "center" }}>
-//             <h1>Image Uploader</h1>
-//             <h4>Simple Drag and Drop Image Uploader using React</h4>
-//             <div>
-//                <ImageUploader />
-//             </div>
-//          </div>
-//       );
-//    }
-// }
-//
-// ReactDOM.render(<App />, document.getElementById("app"));

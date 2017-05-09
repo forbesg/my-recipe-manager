@@ -89,6 +89,31 @@ form input#image:focus + label {
   }
 }
 
+.recipe-edit .image-container {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+}
+.recipe-edit .image-container img {
+  width: 100%;
+}
+.recipe-edit .image-container .delete-icon {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #eee;
+  border: 1px solid #444;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  transition: background-color 0.2s ease-in-out;
+}
+.recipe-edit .image-container .delete-icon:hover {
+  background-color: #999;
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -142,10 +167,10 @@ form input#image:focus + label {
   padding: 20px;
 }
 
+
 /*
  Reorder List Styles
 */
-
 .reorder-list {
   display: flex;
   flex-direction: column;

@@ -105,7 +105,7 @@
   animation: fadeInDown 0.2s;
 }
 
-.recipe {
+.recipe, .recipe-add, .recipe-edit {
   position: relative;
   text-align: left;
   max-width: 700px;

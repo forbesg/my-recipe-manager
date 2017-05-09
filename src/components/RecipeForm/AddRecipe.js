@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import ImageUpload from './ImageUpload';
+// import ImageUpload from './ImageUpload'; // Need to prevent uploading if recipe doesn't already exist.
 import './RecipeForm.css';
 
 class AddRecipe extends Component {
@@ -133,7 +133,7 @@ class AddRecipe extends Component {
     ) : null;
 
     return (
-      <div>
+      <div className="recipe-add">
         <header>
           <h1>Add Recipe</h1>
         </header>
@@ -189,7 +189,6 @@ class AddRecipe extends Component {
           </div>
         </form>
         {infoMessage}
-        <ImageUpload />
       </div>
 
     );

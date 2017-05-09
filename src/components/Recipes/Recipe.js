@@ -153,6 +153,8 @@ class Recipe extends Component {
 
     let editMenuClass = !this.state.editMenuOpen ? "edit-menu" : "edit-menu open";
 
+    
+
     let editMenu = (this.state.recipe && this.props.user) && (this.state.recipe.owner.uid === this.props.user.uid) ? (
       <div className={editMenuClass}>
         <button title="Edit Recipe" onClick={this.handleToggleEditMenu}><i className="fa fa-cogs" style={{fontSize: "1.2em", padding: "5px 0"}}></i></button>
