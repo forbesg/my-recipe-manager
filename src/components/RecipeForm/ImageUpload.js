@@ -17,7 +17,8 @@ class ImageUpload extends Component {
       this.state = {
          file: null,
          dragOver: false,
-         errorNoficication: null
+         errorNoficication: null,
+         uploadProgress: null
       };
    }
 
@@ -133,7 +134,7 @@ class ImageUpload extends Component {
 
       // If file is set, change upload box text to file name
       let uploadText = this.state.file
-         ? <div>
+         ? <div className="upload-text">
               <h4>{this.state.file.name}</h4>
               <div className="upload-buttons">
                 <button
@@ -150,9 +151,23 @@ class ImageUpload extends Component {
                 </button>
               </div>
            </div>
-         : <div>
+         : <div className="upload-text">
               <h4>Choose Image to Upload</h4>
            </div>;
+
+      let uploaderContent = this.state.uploadProgress ? (
+        <div className="upload-progress">
+          <progress min="0" max="100" value={this.state.uploadProgress}></progress>
+          <h4>Uploading...</h4>
+        </div>
+      ) : (
+        <div>
+          <div className="upload-icon">
+             <i className="fa fa-upload" aria-hidden="true" />
+          </div>
+          {uploadText}
+        </div>
+      )
 
       // Show Error message if file type is not an image
       let errorNotification = this.state.errorNotification
@@ -166,12 +181,7 @@ class ImageUpload extends Component {
          <div className="image-uploader-wrapper">
             <div className={dragOverClass}>
                <div className="icon-text-box">
-                  <div className="upload-icon">
-                     <i className="fa fa-upload" aria-hidden="true" />
-                  </div>
-                  <div className="upload-text">
-                     {uploadText}
-                  </div>
+                  {uploaderContent}
                   {errorNotification}
                </div>
                <div>

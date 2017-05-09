@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-// import ImageUpload from './ImageUpload'; // Need to prevent uploading if recipe doesn't already exist.
 import './RecipeForm.css';
 
 class AddRecipe extends Component {
@@ -64,7 +63,7 @@ class AddRecipe extends Component {
       this.setState({
         infoMessage: null
       });
-    }, 5000)
+    }, 3000);
   }
 
   handlePrepTime () {
@@ -109,6 +108,10 @@ class AddRecipe extends Component {
       methodSteps: methodArray
     })
     this.refs.method.value = "";
+  }
+
+  componentWillUnmount () {
+    // Clear timeout function before unmounting
   }
 
   render () {

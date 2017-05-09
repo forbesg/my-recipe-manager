@@ -101,8 +101,10 @@
   margin: 0;
   text-shadow: none;
 }
-.image-uploader-wrapper .display-box .icon-text-box .upload-text h4 {
+.image-uploader-wrapper .display-box .icon-text-box .upload-text h4,
+.image-uploader-wrapper .display-box .icon-text-box .upload-progress h4  {
   color: #444;
+  text-align: center;
 }
 .image-uploader-wrapper .display-box .icon-text-box .upload-buttons {
   display: flex;
