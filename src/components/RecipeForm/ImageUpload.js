@@ -74,7 +74,6 @@ class ImageUpload extends Component {
    handleAddImage(e) {
       e.preventDefault();
       let file = this.refs.image.files[0];
-      console.log(file)
 
       // Validate file is of type Image
       let fileType = file.type.split('/')[0];
@@ -136,18 +135,20 @@ class ImageUpload extends Component {
       let uploadText = this.state.file
          ? <div>
               <h4>{this.state.file.name}</h4>
-              <button
-                 className="cancel-upload-button btn btn-warning"
-                 onClick={this.handleCancelUpload}
-              >
-                 Cancel
-             </button>
-              <button
-                 className="upload-button btn btn-primary"
-                 onClick={this.handleUploadImage}
-              >
-                 Upload
-              </button>
+              <div className="upload-buttons">
+                <button
+                   className="cancel-upload-button btn btn-warning"
+                   onClick={this.handleCancelUpload}
+                >
+                   Cancel
+               </button>
+                <button
+                   className="upload-button btn btn-primary"
+                   onClick={this.handleUploadImage}
+                >
+                   Upload
+                </button>
+              </div>
            </div>
          : <div>
               <h4>Choose Image to Upload</h4>

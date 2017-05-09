@@ -104,6 +104,10 @@
 .image-uploader-wrapper .display-box .icon-text-box .upload-text h4 {
   color: #444;
 }
+.image-uploader-wrapper .display-box .icon-text-box .upload-buttons {
+  display: flex;
+  justify-content: center;
+}
 .image-uploader-wrapper .display-box .upload-image-input {
   position: absolute;
   top: 0;
