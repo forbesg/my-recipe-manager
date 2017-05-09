@@ -59,8 +59,8 @@ firebase deploy
 
 - ~~Remove Images on Recipe Delete~~
 - ~~Remove recipe from users Favorites on delete~~
-- Add ability to delete an image
-- Improve the image upload UI/UX and add uploader to Add Recipe form
+- ~~Add ability to delete an image~~
+- ~~Improve the image upload UI/UX and~~ add uploader to Add Recipe form
 - Implement Share functionality
 - Implement Fork functionality
 
