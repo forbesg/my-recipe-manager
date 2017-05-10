@@ -19,6 +19,20 @@ class Recipes extends Component {
       snap.forEach(recipe => {
         let key = recipe.key;
         recipe = recipe.val();
+        if (recipe.image && !recipe.thumbnail) {
+          let thumbnailFileName = `thumb_${recipe.image.fileName}`;
+          firebase.storage().ref('/recipes').child(`${key}/thumbnail/${thumbnailFileName}`).getDownloadURL().then(url => {
+            recipe.thumbnail = {
+              fileName: thumbnailFileName,
+              url
+            };
+            firebase.database().ref(`/recipes/${key}/thumbnail`).set(recipe.thumbnail).then(() => {
+              console.log('Updated thumbnail url');
+            }).catch(err => {
+              console.log(err.message);
+            });
+          });
+        }
         recipe.key = key;
         recipes.push(recipe);
       });
