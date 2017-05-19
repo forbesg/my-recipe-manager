@@ -61,7 +61,9 @@
 .cards .recipe-card header a:after {
   font-family: FontAwesome;
   content: "\f114";
+  display: inline-block;
   margin: 0 10px;
+  width: 25px;
 }
 .cards .recipe-card header a:hover:after {
   content: "\f115";
