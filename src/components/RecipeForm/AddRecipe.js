@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import ImportOverlay from './ImportOverlay';
 import { goodFood } from '../../helpers/import-recipes';
 import './RecipeForm.css';
 
@@ -12,21 +13,28 @@ class AddRecipe extends Component {
     this.handleAddIngredient = this.handleAddIngredient.bind(this);
     this.handleAddMethodSteps = this.handleAddMethodSteps.bind(this);
     this.handleInfoMessage = this.handleInfoMessage.bind(this);
-    this.handleBBC = this.handleBBC.bind(this);
+    this.handleImport = this.handleImport.bind(this);
 
     this.state = {
       prepTime: 0,
       cookTime: 0,
       ingredients: [],
       methodSteps: [],
-      infoMessage: null
+      infoMessage: null,
+      importOverlay: false
     }
   }
 
-  handleBBC (e) {
+  handleImport (e) {
     e.preventDefault();
+    console.log(e.target.parentNode.childNodes[1].value);
+    this.setState({
+      importOverlay: false
+    });
 
-    let url = this.refs.url.value;
+    // let url = this.refs.url.value;
+    let url = e.target.parentNode.childNodes[1].value;
+    e.target.parentNode.childNodes[1].value = "";
     goodFood(url, (err, data, notification) => {
       if (err) return console.log(err);
       if (notification) {
@@ -160,10 +168,22 @@ class AddRecipe extends Component {
       <div className="validation-warning">{this.state.infoMessage}</div>
     ) : null;
 
+    let importOverlay = this.state.importOverlay ? (
+      <ImportOverlay handleClick={this.handleImport} close={() => {
+        this.setState({
+          importOverlay: false
+        });
+      }} />
+    ) : null;
+
     return (
       <div className="recipe-add">
+        {importOverlay}
         <header>
           <h1>Add Recipe</h1>
+          <i className="fa fa-plus" onClick={() => {
+            this.setState({importOverlay: !this.state.importOverlay});
+          }}></i>
           <form onSubmit={this.handleBBC}>
             <label htmlFor="url"></label>
             <input name="url" ref="url" placeholder="url" />

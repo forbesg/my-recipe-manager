@@ -89,6 +89,17 @@ form input#image:focus + label {
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    height: 0%;
+  }
+  to {
+    opacity: 1;
+    height: 100%;
+  }
+}
+
 .recipe-edit .image-container {
   position: relative;
   display: inline-block;
@@ -115,12 +126,13 @@ form input#image:focus + label {
 }
 
 .overlay {
+  animation: fadeIn 0.5s;
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -167,6 +179,43 @@ form input#image:focus + label {
   padding: 20px;
 }
 
+.import-overlay {
+  flex-direction: column;
+  color: #fff;
+}
+.import-overlay .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #fff;
+  border: 1px solid #444;
+  border-radius: 50%;
+  color: #444;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 24px;
+  padding: 4px 6px;
+  transition: background-color 0.2s, color 0.2s, border 0.2s;
+}
+.import-overlay .close:hover {
+  background-color: #444;
+  border: 1px solid #fff;
+  color: #fff;
+}
+.import-overlay h4 {
+  font-size: 2em;
+  color: #fff;
+}
+.import-overlay .logo-container {
+  display: flex;
+  justify-content: space-around;
+}
+.import-overlay .logo-container div {
+  flex: 0 1 200px;
+}
+.import-overlay .logo-container div img {
+  width: 100%;
+}
 
 /*
  Reorder List Styles

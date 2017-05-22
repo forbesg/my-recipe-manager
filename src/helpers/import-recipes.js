@@ -1,5 +1,6 @@
 export function goodFood (url, cb) {
-  if (!url.match(/(https:\/\/www\.bbcgoodfood\.com\/recipes\/)/)) {
+  console.log(url);
+  if (!url.match(/(https\:\/\/www\.bbcgoodfood\.com\/recipes\/)/)) {
     return cb(null, null, "Invalid URL - Please Enter a valid BBC Good Food URL");
   }
   let recipe = {};
