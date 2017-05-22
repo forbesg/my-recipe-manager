@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import { goodFood } from '../../helpers/import-recipes';
 import './RecipeForm.css';
 
 class AddRecipe extends Component {
@@ -11,6 +12,7 @@ class AddRecipe extends Component {
     this.handleAddIngredient = this.handleAddIngredient.bind(this);
     this.handleAddMethodSteps = this.handleAddMethodSteps.bind(this);
     this.handleInfoMessage = this.handleInfoMessage.bind(this);
+    this.handleBBC = this.handleBBC.bind(this);
 
     this.state = {
       prepTime: 0,
@@ -19,6 +21,16 @@ class AddRecipe extends Component {
       methodSteps: [],
       infoMessage: null
     }
+  }
+
+  handleBBC (e) {
+    e.preventDefault();
+    
+    let url = this.refs.url.value;
+    goodFood(url, (err, data) => {
+      if (err) return console.log(err);
+      console.log(data);
+    });
   }
 
   handleSubmit (e) {
@@ -139,6 +151,11 @@ class AddRecipe extends Component {
       <div className="recipe-add">
         <header>
           <h1>Add Recipe</h1>
+          <form onSubmit={this.handleBBC}>
+            <label htmlFor="url"></label>
+            <input name="url" ref="url" placeholder="url" />
+            <input type="submit" className="button" value="Submit"/>
+          </form>
         </header>
         <form onSubmit={this.handleSubmit}>
           <div>
