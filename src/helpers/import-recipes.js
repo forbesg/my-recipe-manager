@@ -1,4 +1,7 @@
 export function goodFood (url, cb) {
+  if (!url.match(/(https:\/\/www\.bbcgoodfood\.com\/recipes\/)/)) {
+    return cb(null, null, "Invalid URL - Please Enter a valid BBC Good Food URL");
+  }
   let recipe = {};
   let ingredientsUrl = `https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22${url}%22%20and%20xpath%3D%22%2F%2Ful%5B%40class%3D%5C%27ingredients-list__group%5C%27%5D%22%0A%20%20%20%20&format=json`
   let headerUrl = `https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22${url}%22%20and%20xpath%3D%22%2F%2Fheader%5B%40class%3D%5C'recipe-header%5C'%5D%22%0A%20%20%20%20&format=json`;
@@ -38,10 +41,16 @@ export function goodFood (url, cb) {
         url: `https:${recipeHeader.div[0].div.img.src.split('?')[0]}`,
         alt: recipe.name
       };
-      recipe.prepTime = recipeHeader.div[1].div[1].div.section[0].div.span[0].span.content.match(/\d[0-9]*/g)[0];
-      recipe.cookTime = recipeHeader.div[1].div[1].div.section[0].div.span[1].span.content.match(/\d[0-9]*/g)[0];
+
+      // Times can be a range which is stored as an array. If this is the case take to first time from the array
+      recipe.prepTime = recipeHeader.div[1].div[1].div.section[0].div.span[0].span.content ?
+                        recipeHeader.div[1].div[1].div.section[0].div.span[0].span.content.match(/\d[0-9]*/g)[0] :
+                        recipeHeader.div[1].div[1].div.section[0].div.span[0].span[0].content.match(/\d[0-9]*/g)[0];
+      recipe.cookTime = recipeHeader.div[1].div[1].div.section[0].div.span[1].span.content ?
+                        recipeHeader.div[1].div[1].div.section[0].div.span[1].span.content.match(/\d[0-9]*/g)[0] :
+                        recipeHeader.div[1].div[1].div.section[0].div.span[1].span[0].content.match(/\d[0-9]*/g)[0];
       recipe.serves = recipeHeader.div[1].div[1].div.section[2].span.content.match(/\d[0-9]*/g)[0];
-      // console.log(recipeHeader);
+      console.log(recipe);
     }).then(() => {
       fetch(methodUrl).then(methodList => {
         return methodList.json();

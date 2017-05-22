@@ -25,11 +25,24 @@ class AddRecipe extends Component {
 
   handleBBC (e) {
     e.preventDefault();
-    
+
     let url = this.refs.url.value;
-    goodFood(url, (err, data) => {
+    goodFood(url, (err, data, notification) => {
       if (err) return console.log(err);
+      if (notification) {
+        return this.handleInfoMessage(notification);
+      }
       console.log(data);
+      this.refs.name.value = data.name;
+      this.refs.prepTime.value = data.prepTime;
+      this.refs.cookTime.value = data.cookTime;
+      this.refs.serves.value = data.serves;
+      this.setState({
+        prepTime: data.prepTime,
+        cookTime: data.cookTime,
+        ingredients: data.ingredients,
+        methodSteps: data.methodSteps
+      });
     });
   }
 
