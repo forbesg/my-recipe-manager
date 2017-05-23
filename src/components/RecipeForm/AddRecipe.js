@@ -27,7 +27,6 @@ class AddRecipe extends Component {
 
   handleImport (e, site) {
     e.preventDefault();
-    console.log(e.target.parentNode.childNodes[1].value);
     this.setState({
       importOverlay: false
     });
@@ -41,7 +40,6 @@ class AddRecipe extends Component {
       if (notification) {
         return this.handleInfoMessage(notification);
       }
-      console.log(data);
       this.refs.name.value = data.name;
       this.refs.prepTime.value = data.prepTime;
       this.refs.cookTime.value = data.cookTime;
@@ -86,7 +84,6 @@ class AddRecipe extends Component {
       return this.handleInfoMessage("Recipe requires ingredients and method before submitting");
     }
     firebase.database().ref('/recipes').push(recipe).then(snap => {
-      console.log(snap.key);
       firebase.database().ref(`/users/${this.props.user.uid}`).child('/recipes').push(snap.key);
       this.props.history.push('/recipes');
     }).catch(err => {

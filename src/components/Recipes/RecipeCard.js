@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getFlagCode } from '../../helpers/helper-functions';
-import placeholderFoodImage from '../../images/placeholder_plate.png';
+// Placeholder Image for thumbnail - removed to use full image if no thumbnail present
+// import placeholderFoodImage from '../../images/placeholder_plate.png';
 
 class RecipeCard extends Component {
   constructor () {
