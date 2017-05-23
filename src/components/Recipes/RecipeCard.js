@@ -28,7 +28,8 @@ class RecipeCard extends Component {
     let animationClass = this.state.animationClass ? this.state.animationClass : "";
     let thumbnailImage = this.props.recipe && this.props.recipe.thumbnail ? (
       <div className="recipe-thumbnail" style={{backgroundImage: `url(${this.props.recipe.thumbnail.url})`}}></div>
-    ) : <div className="recipe-thumbnail" style={{backgroundImage: `url(${placeholderFoodImage})`}}></div>;
+    ) : null;
+    //<div className="recipe-thumbnail" style={{backgroundImage: `url(${placeholderFoodImage})`}}></div>;
     let fullImage = this.props.recipe && this.props.recipe.image ? (
       <div className="recipe-thumbnail" style={{backgroundImage: `url(${this.props.recipe.image.url})`}}></div>
     ) : null;

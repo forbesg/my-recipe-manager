@@ -25,12 +25,13 @@ class AddRecipe extends Component {
     }
   }
 
-  handleImport (e) {
+  handleImport (e, site) {
     e.preventDefault();
     console.log(e.target.parentNode.childNodes[1].value);
     this.setState({
       importOverlay: false
     });
+    // return console.log(e, site);
 
     // let url = this.refs.url.value;
     let url = e.target.parentNode.childNodes[1].value;
@@ -45,6 +46,7 @@ class AddRecipe extends Component {
       this.refs.prepTime.value = data.prepTime;
       this.refs.cookTime.value = data.cookTime;
       this.refs.serves.value = data.serves;
+      this.refs.image = data.image;
       this.setState({
         prepTime: data.prepTime,
         cookTime: data.cookTime,
@@ -69,6 +71,10 @@ class AddRecipe extends Component {
       ingredients: this.state.ingredients,
       methodSteps: this.state.methodSteps
     }
+    if (this.refs.image) {
+      recipe.image = this.refs.image;
+    }
+
     for (let key in recipe) {
       if (recipe.hasOwnProperty(key)) {
         if (!recipe[key] || recipe[key] === "") {

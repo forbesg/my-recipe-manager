@@ -19,9 +19,11 @@ class Recipes extends Component {
       snap.forEach(recipe => {
         let key = recipe.key;
         recipe = recipe.val();
-        if (recipe.image && !recipe.thumbnail) {
+        if (recipe.image && !recipe.thumbnail && !recipe.image.remote) {
           let thumbnailFileName = `thumb_${recipe.image.fileName}`;
-          firebase.storage().ref('/recipes').child(`${key}/thumbnail/${thumbnailFileName}`).getDownloadURL().then(url => {
+          let imageRef = firebase.storage().ref('/recipes').child(`${key}/thumbnail/${thumbnailFileName}`);
+          console.log(imageRef);
+          imageRef.getDownloadURL().then(url => {
             recipe.thumbnail = {
               fileName: thumbnailFileName,
               url
@@ -31,6 +33,8 @@ class Recipes extends Component {
             }).catch(err => {
               console.log(err.message);
             });
+          }).catch(err => {
+            console.log('Thumbnail Image Not Found', err.code);
           });
         }
         recipe.key = key;
