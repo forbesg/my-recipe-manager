@@ -35,6 +35,8 @@ class AddRecipe extends Component {
     // let url = this.refs.url.value;
     let url = e.target.parentNode.childNodes[1].value;
     e.target.parentNode.childNodes[1].value = "";
+
+    // Request scraped data from Glitch API
     goodFood(url, (err, data, notification) => {
       if (err) return console.log(err);
       if (notification) {
@@ -184,14 +186,14 @@ class AddRecipe extends Component {
         {importOverlay}
         <header>
           <h1>Add Recipe</h1>
-          <i className="fa fa-plus" onClick={() => {
-            this.setState({importOverlay: !this.state.importOverlay});
-          }}></i>
-          <form onSubmit={this.handleBBC}>
-            <label htmlFor="url"></label>
-            <input name="url" ref="url" placeholder="url" />
-            <input type="submit" className="button" value="Submit"/>
-          </form>
+          <div className="import">
+            <h6>Import Recipe</h6>
+            <div className="icon" onClick={() => {
+                this.setState({importOverlay: !this.state.importOverlay});
+              }}>
+              <i className="fa fa-plus"></i>
+            </div>
+          </div>
         </header>
         <form onSubmit={this.handleSubmit}>
           <div>

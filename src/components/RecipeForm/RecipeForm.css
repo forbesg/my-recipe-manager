@@ -132,7 +132,7 @@ form input#image:focus + label {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -179,6 +179,31 @@ form input#image:focus + label {
   padding: 20px;
 }
 
+.import {
+  position: absolute;
+  top: -20px;
+  right: 0;
+  text-align: center;
+}
+.import h6 {
+  margin: 5px 0;
+}
+.import .icon {
+  background-color: #e99002;
+  color: #fff;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  margin: auto;
+  transition: background-color 0.2s linear;
+}
+.import .icon:hover {
+  background-color: #bc7c15;
+}
+
+
 .import-overlay {
   flex-direction: column;
   color: #fff;
@@ -215,6 +240,17 @@ form input#image:focus + label {
 }
 .import-overlay .logo-container div img {
   width: 100%;
+}
+.import-overlay .logo-container div input {
+  border: none;
+  border-bottom: 2px solid gray;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+}
+.import-overlay .logo-container div input:focus {
+  border-color: #274038;
+  outline: none;
 }
 
 /*

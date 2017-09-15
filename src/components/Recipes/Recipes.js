@@ -50,7 +50,7 @@ class Recipes extends Component {
 
   render () {
     let recipes = this.state.recipes ? this.state.recipes.map((recipe, index) => {
-      let delay = 100 * index;
+      let delay = 50 * index;
       return <RecipeCard recipe={recipe} key={index} delay={delay} />
     }) : null;
 

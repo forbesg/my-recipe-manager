@@ -13,16 +13,6 @@ function ImportOverlay (props) {
           <input type="url" placeholder="BBC Good Food Recipe URL" />
           <button onClick={(e) => {props.handleClick(e, 'BBC')}}>Import Recipe</button>
         </div>
-        <div className="bbc">
-          <img src={bbcGoodFoodLogo} alt="BBC Good Food"/>
-          <input type="url" placeholder="BBC Good Food Recipe URL" />
-          <button onClick={(e) => {props.handleClick(e, 'BBC')}}>Import Recipe</button>
-        </div>
-        <div className="bbc">
-          <img src={bbcGoodFoodLogo} alt="BBC Good Food"/>
-          <input type="url" placeholder="BBC Good Food Recipe URL" />
-          <button onClick={(e) => {props.handleClick(e, 'BBC')}}>Import Recipe</button>
-        </div>
       </div>
     </div>
   );
