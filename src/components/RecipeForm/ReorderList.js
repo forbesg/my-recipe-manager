@@ -34,18 +34,21 @@ function ReorderList (props) {
 
   let items = array.map((item, index) => {
     return (
-      <div className="list-item" key={index} >
-        <p id={index} draggable onDragStart={handleDragStart} onDragOver={handleAllowDrop} onDragEnter={handleAllowDrop} onDrop={handleDrop}>
-        {item}
-        <i className="fa fa-pencil" title="edit" onClick={() => props.handleEdit(props.arrayName, item, index)}></i>
-        <i className="fa fa-trash" title="delete" onClick={() => handleDelete(props.arrayName, index)}></i>
-        </p>
-      </div>
+      <tr className="list-item" id={index} draggable onDragStart={handleDragStart} onDragOver={handleAllowDrop} onDragEnter={handleAllowDrop} onDrop={handleDrop} key={index}>
+        <td><i className="fa fa-arrows"></i></td>
+        <td>{item}</td>
+        <td><i className="fa fa-pencil" title="edit" onClick={() => props.handleEdit(props.arrayName, item, index)}></i></td>
+        <td><i className="fa fa-trash" title="delete" onClick={() => handleDelete(props.arrayName, index)}></i></td>
+      </tr>
     )
   });
   return (
     <div className="reorder-list">
-      {items}
+      <table>
+        <tbody>
+          {items}
+        </tbody>
+      </table>
     </div>
   );
 

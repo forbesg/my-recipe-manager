@@ -25,9 +25,10 @@ form input {
 form input[type=text] {
   background-color: #f9f9f9;
   border: none;
-  border-bottom: 2px solid gray;
+  border-bottom: 2px solid #dadada;
   padding: 5px;
   outline: none;
+  transition: border-bottom 0.2s linear;
 }
 form input[type=text]:focus {
   border-color: #274038;
@@ -256,27 +257,35 @@ form input#image:focus + label {
 /*
  Reorder List Styles
 */
-.reorder-list {
+.reorder-list table {
+  width: 100%;
+}
+.reorder-list table tbody {
   display: flex;
   flex-direction: column;
 }
-.reorder-list .list-item {
-  line-height: 14px;
+.reorder-list table tbody tr.list-item {
+  display: flex;
+  line-height: 24px;
 }
-.reorder-list .list-item p {
+.reorder-list table tbody tr.list-item td {
+  /*margin: 0;*/
+  flex: 0 0 30px;
+}
+.reorder-list table tbody tr.list-item td:nth-child(2) {
+  /*margin: 0;*/
   cursor: move;
-  margin: 0;
-}
-.recipe-edit .list-item, .recipe-edit .list-item {
-
+  flex: 1 1 auto;
 }
 .recipe-edit .list-item i, .recipe-edit .list-item i {
   cursor: pointer;
-  padding-left: 10px;
 }
-.recipe-edit .list-item i.fa-pencil, .recipe-edit .list-item i.fa-pencil {
+.recipe-edit .list-item i.fa-arrows {
+  color: #ddd;
+}
+.recipe-edit .list-item i.fa-pencil {
   color: #ba9e2e;
 }
-.recipe-edit .list-item i.fa-trash, .recipe-edit .list-item i.fa-trash {
+.recipe-edit .list-item i.fa-trash {
   color: #961f1f;
 }
