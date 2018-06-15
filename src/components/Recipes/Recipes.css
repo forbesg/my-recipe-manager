@@ -3,18 +3,18 @@
   justify-content: space-between;
   text-align: left;
   flex-wrap: wrap;
+  margin: 0 -10px;
 }
 
 .cards .recipe-card {
   background-color: #fff;
   position: relative;
-  flex: 1 0 270px;
+  flex: 1 1 370px;
   padding: 5px;
   margin: 5px;
   border: 1px solid #dadada;
   box-sizing: border-box;
   padding-bottom: 50px;
-  opacity: 0;
 }
 .cards .recipe-card.animate {
   animation-name: fadeIn;
@@ -29,7 +29,7 @@
 
 .cards .recipe-card header {
   display: flex;
-  background-color: #cac1b1;
+  background-color: #ddd2c6;
   border-bottom: 1px solid #274038;
   padding: 10px;
   text-align: left;

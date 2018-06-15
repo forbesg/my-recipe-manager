@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/storage';
@@ -24,7 +24,7 @@ class Recipes extends Component {
         if (recipe.image && !recipe.thumbnail && !recipe.image.remote) {
           let thumbnailFileName = `thumb_${recipe.image.fileName}`;
           let imageRef = firebase.storage().ref('/recipes').child(`${key}/thumbnail/${thumbnailFileName}`);
-          
+
           imageRef.getDownloadURL().then(url => {
             recipe.thumbnail = {
               fileName: thumbnailFileName,
@@ -52,9 +52,9 @@ class Recipes extends Component {
 
   render () {
     let recipes = this.state.recipes ? this.state.recipes.map((recipe, index) => {
-      let delay = 50 * index;
-      return <RecipeCard recipe={recipe} key={index} delay={delay} />
-    }) : null;
+        let delay = 50 * index;
+        return <RecipeCard recipe={recipe} key={index} delay={delay} />
+      }) : null;
 
     let recipesElement = this.state.recipes ? (
       <div className="recipes">
@@ -62,7 +62,7 @@ class Recipes extends Component {
           <h1>Recipes</h1>
         </header>
         <div className="cards">
-        {recipes}
+          {recipes}
         </div>
       </div>
     ) : (

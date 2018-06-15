@@ -26,6 +26,8 @@ form input[type=text] {
   background-color: #f9f9f9;
   border: none;
   border-bottom: 2px solid #dadada;
+  flex: 0 1 400px;
+  margin-left: 20px;
   padding: 5px;
   outline: none;
   transition: border-bottom 0.2s linear;

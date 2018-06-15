@@ -1,42 +1,37 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { CSSTransitionGroup } from 'react-transition-group';
 import { getFlagCode } from '../../helpers/helper-functions';
 // Placeholder Image for thumbnail - removed to use full image if no thumbnail present
 // import placeholderFoodImage from '../../images/placeholder_plate.png';
-
+console.log(CSSTransitionGroup);
 class RecipeCard extends Component {
   constructor () {
     super();
-    this.updateState = this.updateState.bind(this);
+    // this.updateState = this.updateState.bind(this);
     this.state = {
       animationClass: null
     };
   }
-  updateState () {
-    this.setState({
-      animationClass: "animate"
-    });
-  }
-  componentDidMount () {
-    setTimeout(() => {
-      this.updateState();
-    }, parseInt(this.props.delay, 10))
-  }
+
   render () {
     const cuisine = this.props.recipe.cuisine;
     let flagCode = getFlagCode(cuisine);
     let flagIcon = require(`../../images/flags/${flagCode}.svg`);
-    let animationClass = this.state.animationClass ? this.state.animationClass : "";
+    // let animationClass = this.state.animationClass ? this.state.animationClass : "";
     let thumbnailImage = this.props.recipe && this.props.recipe.thumbnail ? (
-      <div className="recipe-thumbnail" style={{backgroundImage: `url(${this.props.recipe.thumbnail.url})`}}></div>
+      <div className="recipe-thumbnail" style={{
+        backgroundImage: `url(${this.props.recipe.thumbnail.url})`,
+        backgroundColor: '#fdfdfd'
+      }}></div>
     ) : null;
-    //<div className="recipe-thumbnail" style={{backgroundImage: `url(${placeholderFoodImage})`}}></div>;
+
     let fullImage = this.props.recipe && this.props.recipe.image ? (
       <div className="recipe-thumbnail" style={{backgroundImage: `url(${this.props.recipe.image.url})`}}></div>
     ) : null;
     let image = thumbnailImage ? thumbnailImage : fullImage;
     return (
-      <div className={`recipe-card ${animationClass}`} data-delay={this.props.delay}>
+      <div className="recipe-card" data-delay={this.props.delay}>
         <header>
           {image}
           <div className="recipe-card-info">
