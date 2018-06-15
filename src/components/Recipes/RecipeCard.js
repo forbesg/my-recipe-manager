@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { CSSTransitionGroup } from 'react-transition-group';
 import { getFlagCode } from '../../helpers/helper-functions';
 // Placeholder Image for thumbnail - removed to use full image if no thumbnail present
 // import placeholderFoodImage from '../../images/placeholder_plate.png';
-console.log(CSSTransitionGroup);
+
 class RecipeCard extends Component {
   constructor () {
     super();
