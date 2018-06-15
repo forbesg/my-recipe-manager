@@ -7,6 +7,7 @@ import 'firebase/database';
 // import 'firebase/storage';
 import { storage } from '../../firebase/firebase-init';
 import RemoveFavorite from './RemoveFavorite';
+import { Helmet } from "react-helmet";
 
 
 class Recipe extends Component {
@@ -193,6 +194,14 @@ class Recipe extends Component {
 
     let recipe = this.state.recipe ? (
         <div className="recipe">
+          <Helmet>
+            <title>{`My Recipe Manager | ${this.state.recipe.name}`}</title>
+            <meta property="og:title" content={`My Recipe Manager | ${this.state.recipe.name}`} />
+            <meta property="og:type" content="website" />
+            <meta property="og:description" content={`${this.state.recipe.name} - A ${this.state.recipe.cuisine} recipe added by ${this.state.recipe.owner.name}`} />
+            <meta property="og:url" content={`https://my-recipe-manager.firebaseapp.com/recipes/${this.props.match.params.id}`} />
+            <meta property="og:image" content={this.state.recipe.image.url} />
+          </Helmet>
           {confirmOverlay}
           <header>
             <h2><i className="fa fa-cutlery"></i> - {this.state.recipe.name} - <i className="fa fa-cutlery"></i></h2>
