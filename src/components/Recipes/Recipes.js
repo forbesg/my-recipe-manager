@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/storage';
 import RecipeCard from '../Recipes/RecipeCard';
 import Loader from '../Loader';
 import './Recipes.css';
@@ -22,7 +24,7 @@ class Recipes extends Component {
         if (recipe.image && !recipe.thumbnail && !recipe.image.remote) {
           let thumbnailFileName = `thumb_${recipe.image.fileName}`;
           let imageRef = firebase.storage().ref('/recipes').child(`${key}/thumbnail/${thumbnailFileName}`);
-          console.log(imageRef);
+          
           imageRef.getDownloadURL().then(url => {
             recipe.thumbnail = {
               fileName: thumbnailFileName,

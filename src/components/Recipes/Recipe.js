@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AddFavorite from './AddFavorite';
 import RecipeBanner from './RecipeBanner';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
+// import 'firebase/storage';
 import { storage } from '../../firebase/firebase-init';
 import RemoveFavorite from './RemoveFavorite';
 
@@ -153,7 +155,7 @@ class Recipe extends Component {
 
     let editMenuClass = !this.state.editMenuOpen ? "edit-menu" : "edit-menu open";
 
-    
+
 
     let editMenu = (this.state.recipe && this.props.user) && (this.state.recipe.owner.uid === this.props.user.uid) ? (
       <div className={editMenuClass}>
@@ -161,7 +163,7 @@ class Recipe extends Component {
         <div className="dropdown-menu">
           <nav>
             <Link to={`/recipes/${this.props.match.params.id}/edit`}><i className="fa fa-edit"></i> <span>Edit Recipe</span></Link>
-            <a href="#" onClick={this.handleConfirmDeleteOverlay}><i className="fa fa-trash"></i> <span>Delete Recipe</span></a>
+            <a href={`/recipes/${this.props.match.params.id}/delete`} onClick={this.handleConfirmDeleteOverlay}><i className="fa fa-trash"></i> <span>Delete Recipe</span></a>
           </nav>
         </div>
       </div>

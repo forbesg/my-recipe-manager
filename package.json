@@ -3,13 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.9.5",
+    "react-scripts": "^1.1.4",
     "sw-precache": "^5.1.0"
   },
   "dependencies": {
-    "firebase": "^3.7.6",
+    "firebase": "^5.0.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-helmet": "^5.2.0",
     "react-router-dom": "^4.1.1"
   },
   "scripts": {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 import RecipeCard from '../Recipes/RecipeCard';
 import Loader from '../Loader';
 import emptyBox from '../../images/empty-box.jpg';
@@ -28,9 +29,11 @@ class UserRecipes extends Component {
         let usersFavorites = [];
         for (let key in user.favorites) {
           firebase.database().ref(`/recipes/${key}`).once('value', snap => {
-            let favoriteRecipe = snap.val();
-            favoriteRecipe.key = key;
-            usersFavorites.push(favoriteRecipe);
+            if (snap.val()) {
+              let favoriteRecipe = snap.val();
+              favoriteRecipe.key = key;
+              usersFavorites.push(favoriteRecipe);
+            }
           }, err => {
             console.log(err.message);
           }).then(() => {

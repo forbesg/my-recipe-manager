@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/storage';
 import ImportOverlay from './ImportOverlay';
 import { goodFood } from '../../helpers/import-recipes';
 import './RecipeForm.css';

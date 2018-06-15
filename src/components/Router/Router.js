@@ -10,7 +10,9 @@ import UserRecipes from '../UserRecipes/UserRecipes';
 import UserFavoriteRecipes from '../UserRecipes/UserFavoriteRecipes';
 import Dashboard from '../Dashboard/Dashboard';
 import Notification from './Notification';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 
 let NoMatch = () => {
   return (

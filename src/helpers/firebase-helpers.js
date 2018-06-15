@@ -1,4 +1,6 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/storage';
 
 const recipesRef = firebase.database().ref('/recipes');
 const usersRef = firebase.database().ref('/users');
@@ -37,50 +39,48 @@ export function uploadImageToFirebase (recipeKey, file, cb) {
 
   uploadImage.on('state_changed', snap => {
     let uploadProgress = (snap.bytesTransferred / snap.totalBytes) * 100;
-    // this.setState({
-    //   uploadProgress
-    // });
-    console.log(uploadProgress);
     cb(uploadProgress);
   }, err => {
     console.log(err);
   }, () => {
-    console.log("Successful upload");
-    let image = {
-      url: uploadImage.snapshot.downloadURL,
-      fileName: `image.${fileExt}`
-    }
-    recipeDatabaseRef.child(`/${recipeKey}/image`).set(image).then(() => {
-      console.log('successfully uploaded');
-      recipeDatabaseRef.child(`/${recipeKey}/thumb`).set(false).then(() => {
-        console.log('added thumbnail [false]');
-        recipeDatabaseRef.child(`/${recipeKey}/thumb`).on('value', snap => {
-          console.log(snap.val());
-          if (snap.val()) {
-            recipeStorageRef.child(`/${recipeKey}/thumbnail/thumb_image.${fileExt}`).getDownloadURL().then(url => {
-              let thumbnail = {
-                url,
-                fileName: `thumb_image.${fileExt}`
-              }
-              recipeDatabaseRef.child(`/${recipeKey}/thumbnail`).set(thumbnail).then(() => {
-                console.log('successfully added thumbnail url');
+    console.log("Successful upload", uploadImage);
+    uploadImage.snapshot.ref.getDownloadURL().then(downloadURL => {
+      let image = {
+        url: downloadURL,
+        fileName: `image.${fileExt}`
+      }
+      recipeDatabaseRef.child(`/${recipeKey}/image`).set(image).then(() => {
+        console.log('successfully uploaded');
+        recipeDatabaseRef.child(`/${recipeKey}/thumb`).set(false).then(() => {
+          console.log('added thumbnail [false]');
+          recipeDatabaseRef.child(`/${recipeKey}/thumb`).on('value', snap => {
+            console.log(snap.val());
+            if (snap.val()) {
+              recipeStorageRef.child(`/${recipeKey}/thumbnail/thumb_image.${fileExt}`).getDownloadURL().then(url => {
+                let thumbnail = {
+                  url,
+                  fileName: `thumb_image.${fileExt}`
+                }
+                recipeDatabaseRef.child(`/${recipeKey}/thumbnail`).set(thumbnail).then(() => {
+                  console.log('successfully added thumbnail url');
+                }).catch(err => {
+                  console.error(err.message);
+                })
               }).catch(err => {
                 console.error(err.message);
-              })
-            }).catch(err => {
-              console.error(err.message);
-            });
-          }
-        }, err => {
-          console.log(err.message);
+              });
+            }
+          }, err => {
+            console.log(err.message);
+          });
+        }).catch(err => {
+          console.error(err.message)
         });
+        cb(null, image);
       }).catch(err => {
-        console.error(err.message)
+        console.log(err);
       });
-      cb(null, image);
-    }).catch(err => {
-      console.log(err);
-    });
+    })
   });
 }
 

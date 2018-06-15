@@ -101,7 +101,6 @@ class ImageUpload extends Component {
    **/
    handleUploadImage(e) {
       e.preventDefault();
-      console.log('Uploading', this.refs.image.fileList)
       if (this.refs.image.files[0]) {
         let file = this.refs.image.files[0];
          console.log("Uploading Image " + file.name + "");

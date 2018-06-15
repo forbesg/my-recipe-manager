@@ -12,13 +12,12 @@ admin.initializeApp(functions.config().firebase);
  * ImageMagick.
  */
 // [START generateThumbnailTrigger]
-exports.generateThumbnail = functions.storage.object().onChange(event => {
+exports.generateThumbnail = functions.storage.object().onFinalize(object => {
 // [END generateThumbnailTrigger]
   // [START eventAttributes]
 
   // Get recipe key from event data name [recipe/{key}/thumb_image]
-  const recipeKey = event.data.name.split('/')[1];
-  const object = event.data; // The Storage object.
+  const recipeKey = object.name.split('/')[1];
 
   const fileBucket = object.bucket; // The Storage bucket that contains the file.
   const filePath = object.name; // File path in the bucket.
@@ -82,14 +81,19 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
 // [END generateThumbnail]
 
 // Add Global Notification when new recipe added
-exports.globalNotification = functions.database.ref('/recipes/{recipeKey}').onWrite(event => {
-  if (event.data.previous.exists()) {
-    return;
+exports.globalNotification = functions.database.ref('/recipes/{recipeKey}').onWrite((change, context) => {
+  if (change.before.exists()) {
+    return null;
   }
-  let owner = event.data.val().owner;
-  let recipeName = event.data.val().name;
+  // Exit if data has been deleted
+  if (!change.after.exists()) {
+    return null;
+  }
+
+  let owner = change.after.val().owner;
+  let recipeName = change.after.val().name;
   let notification = `${owner.name} just added ${recipeName}`;
-  admin.database().ref('/notification').set({
+  return admin.database().ref('/notification').set({
     user: owner.uid,
     message: notification
   }).then(() => {
@@ -102,15 +106,15 @@ exports.globalNotification = functions.database.ref('/recipes/{recipeKey}').onWr
 });
 
 // Remove deleted recipes from users favorites
-exports.removeDeletedFromFavorites = functions.database.ref('/recipes/{recipeKey}').onWrite(event => {
+exports.removeDeletedFromFavorites = functions.database.ref('/recipes/{recipeKey}').onWrite((change, context) => {
   // Exit function if it isn't a delete event
-  if (event.data.exists()) {
-    return;
+  if (change.after.exists()) {
+    return null;
   }
 
-  let recipeKey = event.params.recipeKey;
+  let recipeKey = context.params.recipeKey;
   let usersRef = admin.database().ref('/users');
-  usersRef.once('value').then(snap => {
+  return usersRef.once('value').then(snap => {
     snap.forEach(user => {
       if (user.val().favorites && user.val().favorites[recipeKey]) {
         let uid = user.val().uid;

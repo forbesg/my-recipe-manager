@@ -8,12 +8,12 @@ class SideBarNav extends Component {
     let authButton = this.props.user ? (
       <div>
         <p>Signed in as {this.props.user.displayName}</p>
-        <a className="logout" href="#" onClick={this.props.logout}>Logout</a>
+        <a className="logout" href="/logout" onClick={this.props.logout}>Logout</a>
       </div>
     ) : (
       <div>
         <p>Login</p>
-        <a href="#" onClick={this.props.loginWithGoogle}>Login With Google</a>
+        <a href="/login" onClick={this.props.loginWithGoogle}>Login With Google</a>
       </div>
     );
     let links = this.props.user ? (
@@ -23,7 +23,7 @@ class SideBarNav extends Component {
         <li onClick={this.props.closeNav}><NavLink exact to='/recipes'>Recipes</NavLink></li>
         <li onClick={this.props.closeNav}><NavLink to='/recipes/add'>Add Recipe</NavLink></li>
         <li onClick={this.props.closeNav}><NavLink to={`/user/${this.props.user.uid}/recipes`}>My Recipes</NavLink></li>
-        <li onClick={this.props.closeNav}><a href="#">~To Do | Share - Fork~</a></li>
+        <li onClick={this.props.closeNav}><a>~To Do | Share - Fork~</a></li>
       </ul>
     ) : (
       <ul>
