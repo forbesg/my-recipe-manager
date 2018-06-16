@@ -200,7 +200,7 @@ class Recipe extends Component {
             <meta property="og:type" content="website" />
             <meta property="og:description" content={`${this.state.recipe.name} - A ${this.state.recipe.cuisine} recipe added by ${this.state.recipe.owner.name}`} />
             <meta property="og:url" content={`https://my-recipe-manager.firebaseapp.com/recipes/${this.props.match.params.id}`} />
-            <meta property="og:image" content={this.state.recipe.image.url} />
+            {this.state.recipe.image ? <meta property="og:image" content={this.state.recipe.image.url} /> : null }
           </Helmet>
           {confirmOverlay}
           <header>
