@@ -2,7 +2,8 @@
  "name": "My Recipe Manager",
  "short_name": "Recipes",
  "display": "standalone",
- "background_color": "#274038",
+ "background_color": "#fff",
+ "theme_color": "#274038",
  "description": "Store, manage and share all your recipes",
  "icons": [
   {
