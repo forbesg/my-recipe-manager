@@ -5,6 +5,7 @@
  "background_color": "#fff",
  "theme_color": "#274038",
  "description": "Store, manage and share all your recipes",
+ "start_url": "/",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
