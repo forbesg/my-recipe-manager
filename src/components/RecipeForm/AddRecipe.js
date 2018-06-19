@@ -23,14 +23,16 @@ class AddRecipe extends Component {
       ingredients: [],
       methodSteps: [],
       infoMessage: null,
-      importOverlay: false
+      importOverlay: false,
+      importing: false
     }
   }
 
   handleImport (e, site) {
     e.preventDefault();
     this.setState({
-      importOverlay: false
+      importOverlay: true,
+      importing: true
     });
     // return console.log(e, site);
 
@@ -42,6 +44,10 @@ class AddRecipe extends Component {
     goodFood(url, (err, data, notification) => {
       if (err) return console.log(err);
       if (notification) {
+        this.setState({
+          importOverlay: false,
+          importing: false
+        });
         return this.handleInfoMessage(notification);
       }
       this.refs.name.value = data.name;
@@ -53,7 +59,9 @@ class AddRecipe extends Component {
         prepTime: data.prepTime,
         cookTime: data.cookTime,
         ingredients: data.ingredients,
-        methodSteps: data.methodSteps
+        methodSteps: data.methodSteps,
+        importOverlay: false,
+        importing: false
       });
     });
   }
@@ -176,9 +184,10 @@ class AddRecipe extends Component {
     ) : null;
 
     let importOverlay = this.state.importOverlay ? (
-      <ImportOverlay handleClick={this.handleImport} close={() => {
+      <ImportOverlay handleClick={this.handleImport} importing={this.state.importing} close={() => {
         this.setState({
-          importOverlay: false
+          importOverlay: false,
+          importing: false
         });
       }} />
     ) : null;

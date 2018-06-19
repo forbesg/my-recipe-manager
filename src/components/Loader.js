@@ -1,11 +1,11 @@
 import React from 'react';
 import ring from '../images/ring.svg';
 
-function Loader () {
+function Loader (props) {
   return (
     <div className="loading-element">
       <img src={ring} alt='loading....' />
-      <h1>Loading........</h1>
+      <h1 style={{color: props.color || null}}>{props.text || 'Loading........'}</h1>
     </div>
   );
 }

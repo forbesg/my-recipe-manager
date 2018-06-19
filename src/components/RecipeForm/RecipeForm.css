@@ -227,6 +227,7 @@ form input#image:focus + label {
   line-height: 24px;
   padding: 4px 6px;
   transition: background-color 0.2s, color 0.2s, border 0.2s;
+  z-index: 9999;
 }
 .import-overlay .close:hover {
   background-color: #444;
