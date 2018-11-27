@@ -43,7 +43,6 @@ class Recipes extends Component {
         recipe = recipe.val();
         // console.log(recipe.image.remote);
         if (recipe.image && !recipe.thumbnail && !recipe.image.remote) {
-          console.log(recipe);
           let thumbnailFileName = `thumb_${recipe.image.fileName}`;
           let imageRef = firebase.storage().ref('/recipes').child(`${key}/thumbnail/${thumbnailFileName}`);
 
