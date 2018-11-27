@@ -11,6 +11,17 @@
           ".write": "auth != null"
         }
       }
+    },
+    "notification": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "users": {
+      ".read": "auth != null",
+      ".write": false,
+      "$user_id": {
+        ".write": "auth != null && !data.exists() || auth != null && $user_id == auth.uid"
+      }
     }
   }
 }
