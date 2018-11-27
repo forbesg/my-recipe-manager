@@ -159,7 +159,7 @@ class MainRouter extends Component {
             </div>
             <Switch>
               <Route exact path='/' component={Home} />
-              <Route exact path='/recipes' component={Recipes} />
+              <Route exact path='/recipes' component={Recipes}/>
               <Route exact path='/recipes/add' render={({...rest}) => {
                 return this.state.user ? (
                   <AddRecipe user={this.state.user} {...rest} />

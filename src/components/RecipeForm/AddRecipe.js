@@ -41,6 +41,7 @@ class AddRecipe extends Component {
     e.target.parentNode.childNodes[1].value = "";
 
     // Request scraped data from Glitch API
+    // https://glitch.com/~bbc-food-scraper
     goodFood(url, (err, data, notification) => {
       if (err) return console.log(err);
       if (notification) {

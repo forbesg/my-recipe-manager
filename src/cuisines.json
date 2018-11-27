@@ -4,20 +4,16 @@
     "flag": "gb"
   },
   {
-    "cuisine": "Indian",
-    "flag": "in"
-  },
-  {
-    "cuisine": "Thai",
-    "flag": "th"
-  },
-  {
     "cuisine": "Chinese",
     "flag": "cn"
   },
   {
     "cuisine": "Greek",
     "flag": "gr"
+  },
+  {
+    "cuisine": "Indian",
+    "flag": "in"
   },
   {
     "cuisine": "Italian",
@@ -34,5 +30,9 @@
   {
     "cuisine": "Spanish",
     "flag": "es"
+  },
+  {
+    "cuisine": "Thai",
+    "flag": "th"
   }
 ]
