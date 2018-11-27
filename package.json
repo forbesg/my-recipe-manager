@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
-    "react-scripts": "^1.1.4",
+    "react-scripts": "^2.1.1",
     "sw-precache": "^5.1.0"
   },
   "dependencies": {
@@ -18,5 +18,11 @@
     "build": "react-scripts build && sw-precache --config=src/sw-precache-config.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
