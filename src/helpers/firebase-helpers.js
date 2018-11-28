@@ -49,6 +49,7 @@ export function uploadImageToFirebase (recipeKey, file, cb) {
         url: downloadURL,
         fileName: `image.${fileExt}`
       }
+      console.log('Image Object', image);
       recipeDatabaseRef.child(`/${recipeKey}/image`).set(image).then(() => {
         console.log('successfully uploaded');
         recipeDatabaseRef.child(`/${recipeKey}/thumb`).set(false).then(() => {

@@ -6,9 +6,15 @@
       ".read": true,
       ".write": "auth != null && !data.exists()",
       "$recipe_id": {
-        ".write": "auth != null && !data.exists() || auth != null && root.child('recipes/'+$recipe_id+'/owner/uid').val() === auth.uid",
+        ".write": "auth != null && !data.exists() || auth != null && root.child('recipes/'+$recipe_id+'/owner/uid').val() == auth.uid",
       	"favoritedBy": {
           ".write": "auth != null"
+        },
+        "image": {
+          ".write": "auth != null && auth != null && root.child('recipes/'+$recipe_id+'/owner/uid').val() == auth.uid"
+        },
+        "thumb": {
+          ".write": "auth != null && auth != null && root.child('recipes/'+$recipe_id+'/owner/uid').val() == auth.uid"
         }
       }
     },
