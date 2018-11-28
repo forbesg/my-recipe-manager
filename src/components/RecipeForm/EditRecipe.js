@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/database';
-import 'firebase/storage';
 import Loader from '../Loader';
 import ReorderList from './ReorderList';
 import ImageUpload from './ImageUpload';
+import { db } from '../../firebase/firebase-init';
 import { deleteImageFromFirebase } from '../../helpers/firebase-helpers';
 import './RecipeForm.css';
 
@@ -59,11 +57,11 @@ class EditRecipe extends Component {
     if (this.state.ingredients.length < 1 || this.state.methodSteps.length < 1) {
       return this.handleInfoMessage("Recipe requires ingredients and method before submitting");
     }
-    firebase.database().ref(`/recipes/${this.props.match.params.id}`).set(recipe).then(() => {
+    db().ref(`/recipes/${this.props.match.params.id}`).set(recipe).then(() => {
       console.log('Recipe Successfully updated');
       this.props.history.push(`/recipes/${this.props.match.params.id}`);
     }).catch(err => {
-      console.log(err.message);
+      console.log(err);
     });
   }
 
@@ -164,7 +162,7 @@ class EditRecipe extends Component {
 
 
   componentWillMount () {
-    firebase.database().ref(`/recipes/${this.props.match.params.id}`).on('value', snap => {
+    db().ref(`/recipes/${this.props.match.params.id}`).on('value', snap => {
       let key = snap.key;
       let recipe = snap.val();
       recipe.key = key;
@@ -179,7 +177,7 @@ class EditRecipe extends Component {
   }
 
   componentWillUnmount () {
-    firebase.database().ref(`/recipes/${this.props.match.params.id}`).off();
+    db().ref(`/recipes/${this.props.match.params.id}`).off();
   }
 
   render () {

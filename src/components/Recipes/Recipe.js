@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AddFavorite from './AddFavorite';
 import RecipeBanner from './RecipeBanner';
-import firebase from 'firebase/app';
-import 'firebase/database';
+// import firebase from 'firebase/app';
+// import 'firebase/database';
 // import 'firebase/storage';
-import { storage } from '../../firebase/firebase-init';
+import { db, storage } from '../../firebase/firebase-init';
 import RemoveFavorite from './RemoveFavorite';
 import { Helmet } from "react-helmet";
 
@@ -50,8 +50,8 @@ class Recipe extends Component {
     let imageName = this.state.recipe.image ? this.state.recipe.image.fileName : null;
     let thumbnailName = this.state.recipe.thumbnail ? this.state.recipe.thumbnail.fileName : null;
     let recipeKey = this.props.match.params.id;
-    let usersRecipesRef = firebase.database().ref(`/users/${this.props.user.uid}/recipes`);
-    let recipeRef = firebase.database().ref(`/recipes/${recipeKey}`);
+    let usersRecipesRef = db().ref(`/users/${this.props.user.uid}/recipes`);
+    let recipeRef = db().ref(`/recipes/${recipeKey}`);
     console.log(this.state.recipe, imageName, thumbnailName);
     recipeRef.set(null).then(() => {
       usersRecipesRef.once('value', snap => {
@@ -95,8 +95,8 @@ class Recipe extends Component {
       name: this.state.recipe.name,
       key: this.props.match.params.id
     }
-    firebase.database().ref(`/users/${uid}/favorites/${favorite.key}`).set(favorite.name).then((snap) => {
-      firebase.database().ref(`/recipes/${this.props.match.params.id}/favoritedBy`).push(uid);
+    db().ref(`/users/${uid}/favorites/${favorite.key}`).set(favorite.name).then((snap) => {
+      db().ref(`/recipes/${this.props.match.params.id}/favoritedBy`).push(uid);
       this.props.handleNotification("Added to favorites");
       this.setState({
         fav: true
@@ -115,7 +115,7 @@ class Recipe extends Component {
 
   componentWillMount () {
     let recipeKey = this.props.match.params.id;
-    firebase.database().ref(`/recipes/${recipeKey}`).once('value', snap => {
+    db().ref(`/recipes/${recipeKey}`).once('value', snap => {
       let recipe = snap.val();
       // If recipe is already users favorite, do not display the add to fav button
       if (recipe.favoritedBy) {
