@@ -23,7 +23,7 @@ class SideBarNav extends Component {
         <li onClick={this.props.closeNav}><NavLink exact to='/recipes'>Recipes</NavLink></li>
         <li onClick={this.props.closeNav}><NavLink to='/recipes/add'>Add Recipe</NavLink></li>
         <li onClick={this.props.closeNav}><NavLink to={`/user/${this.props.user.uid}/recipes`}>My Recipes</NavLink></li>
-        <li onClick={this.props.closeNav}><a>~To Do | Share - Fork~</a></li>
+        <li onClick={this.props.closeNav}><a href="#">~To Do | Share - Fork~</a></li>
       </ul>
     ) : (
       <ul>
