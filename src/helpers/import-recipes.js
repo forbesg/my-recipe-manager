@@ -20,10 +20,9 @@ export function goodFood (url, cb) {
       alt: res.title,
       remote: true
     };
-    recipe.prepTime = res.time.preparation.match(/[0-9]+/)[0];
-    recipe.cookTime = res.time.cooking.match(/[0-9]+/)[0];
-    console.log(res.serves);
-    recipe.serves = res.serves.match(/[0-9]+/)[0];
+    recipe.prepTime = res.time.preparation ? res.time.preparation.match(/[0-9]+/)[0] : 0;
+    recipe.cookTime = res.time.cooking ? res.time.cooking.match(/[0-9]+/)[0] : 0;
+    recipe.serves = res.serves.match(/[0-9]+/)[0] || 0;
     recipe.methodSteps = res.method;
     console.log(recipe);
     cb(null, recipe);

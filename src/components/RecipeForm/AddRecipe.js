@@ -43,7 +43,13 @@ class AddRecipe extends Component {
     // Request scraped data from Glitch API
     // https://glitch.com/~bbc-food-scraper
     goodFood(url, (err, data, notification) => {
-      if (err) return console.log(err);
+      if (err) {
+        this.setState({
+          importOverlay: false,
+          importing: false
+        });
+        return this.handleInfoMessage(err.message);
+      };
       if (notification) {
         this.setState({
           importOverlay: false,
