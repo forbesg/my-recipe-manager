@@ -5,7 +5,6 @@
   flex-wrap: wrap;
   margin: 0 -10px;
 }
-
 .cards .recipe-card {
   background-color: #fff;
   position: relative;
@@ -84,6 +83,17 @@
   position: absolute;
   bottom: 5px;
   left: 5px;
+}
+@supports(display: grid) {
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 10px;
+    margin: 0;
+  }
+  .cards .recipe-card {
+    margin: 0;
+  }
 }
 
 .recipe, .recipe-add, .recipe-edit {
