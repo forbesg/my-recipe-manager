@@ -15,7 +15,7 @@ class UserRecipes extends Component {
     };
   }
 
-  componentWillMount () {
+  componentDidMount () {
     firebase.database().ref(`/users/${this.props.match.params.id}`).once('value', snap => {
       let user = snap.val();
       if (user) {

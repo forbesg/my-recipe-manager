@@ -113,7 +113,7 @@ class Recipe extends Component {
     });
   }
 
-  componentWillMount () {
+  componentDidMount () {
     let recipeKey = this.props.match.params.id;
     db().ref(`/recipes/${recipeKey}`).once('value', snap => {
       let recipe = snap.val();

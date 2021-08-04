@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import Loader from '../Loader';
-import ReorderList from './ReorderList';
-import ImageUpload from './ImageUpload';
-import { db } from '../../firebase/firebase-init';
-import { deleteImageFromFirebase } from '../../helpers/firebase-helpers';
-import './RecipeForm.css';
+import React, { Component } from "react";
+import Loader from "../Loader";
+import ReorderList from "./ReorderList";
+import ImageUpload from "./ImageUpload";
+import { db } from "../../firebase/firebase-init";
+import { deleteImageFromFirebase } from "../../helpers/firebase-helpers";
+import "./RecipeForm.css";
 
 class EditRecipe extends Component {
-  constructor () {
+  constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePrepTime = this.handlePrepTime.bind(this);
@@ -25,11 +25,11 @@ class EditRecipe extends Component {
       ingredients: [],
       methodSteps: [],
       infoMessage: null,
-      edit: null
-    }
+      edit: null,
+    };
   }
 
-  handleSubmit (e) {
+  handleSubmit(e) {
     e.preventDefault();
     let recipe = {
       name: this.refs.name.value,
@@ -37,172 +37,214 @@ class EditRecipe extends Component {
       cuisine: this.refs.cuisine.value,
       owner: {
         uid: this.props.user.uid,
-        name: this.props.user.displayName
+        name: this.props.user.displayName,
       },
       image: this.state.recipe.image || null,
       prepTime: this.refs.prepTime.value,
       cookTime: this.refs.cookTime.value,
       ingredients: this.state.recipe.ingredients,
       methodSteps: this.state.recipe.methodSteps,
-      favoritedBy: this.state.recipe.favoritedBy || null
-    }
+      favoritedBy: this.state.recipe.favoritedBy || null,
+    };
     for (let key in recipe) {
       if (recipe.hasOwnProperty(key)) {
         if (recipe[key] === "") {
-          console.log(key)
+          console.log(key);
           return this.handleInfoMessage("Please complete all required fields");
         }
       }
     }
-    if (this.state.ingredients.length < 1 || this.state.methodSteps.length < 1) {
-      return this.handleInfoMessage("Recipe requires ingredients and method before submitting");
+    if (
+      this.state.ingredients.length < 1 ||
+      this.state.methodSteps.length < 1
+    ) {
+      return this.handleInfoMessage(
+        "Recipe requires ingredients and method before submitting"
+      );
     }
-    db().ref(`/recipes/${this.props.match.params.id}`).set(recipe).then(() => {
-      console.log('Recipe Successfully updated');
-      this.props.history.push(`/recipes/${this.props.match.params.id}`);
-    }).catch(err => {
-      console.log(err);
-    });
+    db()
+      .ref(`/recipes/${this.props.match.params.id}`)
+      .set(recipe)
+      .then(() => {
+        console.log("Recipe Successfully updated");
+        this.props.history.push(`/recipes/${this.props.match.params.id}`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  handleInfoMessage (string) {
+  handleInfoMessage(string) {
     this.setState({
-      infoMessage: string
+      infoMessage: string,
     });
     setTimeout(() => {
       this.setState({
-        infoMessage: null
+        infoMessage: null,
       });
-    }, 5000)
+    }, 5000);
   }
 
-  handlePrepTime () {
+  handlePrepTime() {
     let recipe = this.state.recipe;
     recipe.prepTime = this.refs.prepTime.value;
     this.setState({
-      recipe
+      recipe,
     });
   }
 
-  handleCookTime () {
+  handleCookTime() {
     let recipe = this.state.recipe;
     recipe.cookTime = this.refs.cookTime.value;
     this.setState({
-      recipe
+      recipe,
     });
   }
 
-  handleAddIngredient (e) {
+  handleAddIngredient(e) {
     e.preventDefault();
     let ingredientsArray = this.state.ingredients;
     if (ingredientsArray.indexOf(this.refs.ingredient.value) > -1) {
-      return console.log('Ingredient is already on the list')
+      return console.log("Ingredient is already on the list");
     }
     if (this.refs.ingredient.value.length < 1) {
-      return console.log('Please enter an ingredient')
+      return console.log("Please enter an ingredient");
     }
     ingredientsArray.push(this.refs.ingredient.value);
     this.setState({
-      ingredients: ingredientsArray
-    })
+      ingredients: ingredientsArray,
+    });
     this.refs.ingredient.value = "";
   }
 
-  handleAddMethodSteps (e) {
+  handleAddMethodSteps(e) {
     e.preventDefault();
     let methodArray = this.state.methodSteps;
     if (methodArray.indexOf(this.refs.method.value) > -1) {
-      return console.log('Method is already on the list');
+      return console.log("Method is already on the list");
     }
     if (this.refs.method.value.length < 1) {
-      return console.log('Please enter an method, it cannot be blank');
+      return console.log("Please enter an method, it cannot be blank");
     }
     methodArray.push(this.refs.method.value);
     this.setState({
-      methodSteps: methodArray
-    })
+      methodSteps: methodArray,
+    });
     this.refs.method.value = "";
   }
 
-  handleEdit (type, text, index) {
+  handleEdit(type, text, index) {
     this.setState({
       edit: {
         type: type,
         text,
-        index
-      }
+        index,
+      },
     });
   }
-  handleConfirmEdit (e) {
+  handleConfirmEdit(e) {
     let newArray = this.state[this.state.edit.type];
     newArray[this.state.edit.index] = this.refs.editValue.value;
     this.setState({
       [this.state.edit.type]: newArray,
-      edit: null
+      edit: null,
     });
   }
 
-  handleDeleteImage (e) {
+  handleDeleteImage(e) {
     e.preventDefault();
     // Remove Image and Thumbnail details from DB
     const recipeKey = this.props.match.params.id;
     const fileName = this.state.recipe.image.fileName;
     deleteImageFromFirebase(recipeKey, fileName, (err) => {
       if (err) return console.log(err);
-      console.log('Successfully deleted Everything');
+      console.log("Successfully deleted Everything");
     });
   }
 
-  handleStateUpdate (recipe) {
+  handleStateUpdate(recipe) {
     this.setState({
-      recipe
+      recipe,
     });
   }
 
-
-
-  componentWillMount () {
-    db().ref(`/recipes/${this.props.match.params.id}`).on('value', snap => {
-      let key = snap.key;
-      let recipe = snap.val();
-      recipe.key = key;
-      this.setState({
-        recipe,
-        ingredients: recipe.ingredients,
-        methodSteps: recipe.methodSteps
-      });
-    }, (err) => {
-      console.log(err.message)
-    });
+  componentDidMount() {
+    db()
+      .ref(`/recipes/${this.props.match.params.id}`)
+      .on(
+        "value",
+        (snap) => {
+          let key = snap.key;
+          let recipe = snap.val();
+          recipe.key = key;
+          this.setState({
+            recipe,
+            ingredients: recipe.ingredients,
+            methodSteps: recipe.methodSteps,
+          });
+        },
+        (err) => {
+          console.log(err.message);
+        }
+      );
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     db().ref(`/recipes/${this.props.match.params.id}`).off();
   }
 
-  render () {
-
-    let ingredients = this.state.recipe && (this.state.recipe.ingredients && this.state.recipe.ingredients.length > 0 ) ? (
-        <ReorderList handleEdit={this.handleEdit} recipe={this.state.recipe} array={this.state.recipe.ingredients} arrayName="ingredients" handleStateUpdate={this.handleStateUpdate} />
+  render() {
+    let ingredients =
+      this.state.recipe &&
+      this.state.recipe.ingredients &&
+      this.state.recipe.ingredients.length > 0 ? (
+        <ReorderList
+          handleEdit={this.handleEdit}
+          recipe={this.state.recipe}
+          array={this.state.recipe.ingredients}
+          arrayName="ingredients"
+          handleStateUpdate={this.handleStateUpdate}
+        />
       ) : null;
 
-    let methodSteps = this.state.recipe && (this.state.recipe.methodSteps && this.state.recipe.methodSteps.length > 0) ? (
-        <ReorderList handleEdit={this.handleEdit} recipe={this.state.recipe} array={this.state.recipe.methodSteps} arrayName="methodSteps" handleStateUpdate={this.handleStateUpdate} />
+    let methodSteps =
+      this.state.recipe &&
+      this.state.recipe.methodSteps &&
+      this.state.recipe.methodSteps.length > 0 ? (
+        <ReorderList
+          handleEdit={this.handleEdit}
+          recipe={this.state.recipe}
+          array={this.state.recipe.methodSteps}
+          arrayName="methodSteps"
+          handleStateUpdate={this.handleStateUpdate}
+        />
       ) : null;
 
     let infoMessage = this.state.infoMessage ? (
       <div className="validation-warning">{this.state.infoMessage}</div>
     ) : null;
 
-    let imageSection = this.state.recipe && this.state.recipe.image ? (
-      <div className="outline-box">
-        <h4>Recipe Image</h4>
-        <div className="image-container">
-          <div className="delete-icon" title="Delete Image" onClick={this.handleDeleteImage}><i className="fa fa-times"></i></div>
-          <img src={this.state.recipe.image.url} alt={this.state.recipe.name}/>
+    let imageSection =
+      this.state.recipe && this.state.recipe.image ? (
+        <div className="outline-box">
+          <h4>Recipe Image</h4>
+          <div className="image-container">
+            <div
+              className="delete-icon"
+              title="Delete Image"
+              onClick={this.handleDeleteImage}
+            >
+              <i className="fa fa-times"></i>
+            </div>
+            <img
+              src={this.state.recipe.image.url}
+              alt={this.state.recipe.name}
+            />
+          </div>
         </div>
-      </div>
-    ) : <ImageUpload recipeKey={this.props.match.params.id} />;
+      ) : (
+        <ImageUpload recipeKey={this.props.match.params.id} />
+      );
 
     let editOverlay = this.state.edit ? (
       <div className="overlay">
@@ -212,10 +254,16 @@ class EditRecipe extends Component {
           </header>
           <section>
             <div>
-              <textarea type="text" ref="editValue" defaultValue={this.state.edit.text}></textarea>
+              <textarea
+                type="text"
+                ref="editValue"
+                defaultValue={this.state.edit.text}
+              ></textarea>
             </div>
             <div className="box-buttons">
-              <button onClick={() => this.setState({edit: null})}>Cancel</button>
+              <button onClick={() => this.setState({ edit: null })}>
+                Cancel
+              </button>
               <button onClick={this.handleConfirmEdit}>Update</button>
             </div>
           </section>
@@ -232,11 +280,23 @@ class EditRecipe extends Component {
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="name">Name:</label>
-            <input type="text" ref="name" defaultValue={this.state.recipe.name} placeholder="Recipe Name" />
+            <input
+              type="text"
+              ref="name"
+              defaultValue={this.state.recipe.name}
+              placeholder="Recipe Name"
+            />
           </div>
           <div>
             <label htmlFor="serves">Serves:</label>
-            <input type="number" min="1" max="16" ref="serves" defaultValue={this.state.recipe.serves} placeholder="Number of Servings" />
+            <input
+              type="number"
+              min="1"
+              max="16"
+              ref="serves"
+              defaultValue={this.state.recipe.serves}
+              placeholder="Number of Servings"
+            />
           </div>
           <div>
             <label htmlFor="cuisine">Cuisine:</label>
@@ -254,27 +314,51 @@ class EditRecipe extends Component {
           </div>
           <div>
             <label htmlFor="prepTime">Preparation Time (minutes)</label>
-            <input type="range" min="0" max="360" step="5" defaultValue={this.state.recipe.prepTime} ref="prepTime" onChange={this.handlePrepTime} />
+            <input
+              type="range"
+              min="0"
+              max="360"
+              step="5"
+              defaultValue={this.state.recipe.prepTime}
+              ref="prepTime"
+              onChange={this.handlePrepTime}
+            />
           </div>
           <p className="minutes">{this.state.recipe.prepTime} minutes</p>
           <div>
             <label htmlFor="cookTime">Cooking Time (minutes)</label>
-            <input type="range" min="0" max="360" step="5" defaultValue={this.state.recipe.cookTime} ref="cookTime" onChange={this.handleCookTime} />
+            <input
+              type="range"
+              min="0"
+              max="360"
+              step="5"
+              defaultValue={this.state.recipe.cookTime}
+              ref="cookTime"
+              onChange={this.handleCookTime}
+            />
           </div>
           <p className="minutes">{this.state.recipe.cookTime} minutes</p>
           <h4>Ingredients</h4>
           {ingredients}
           <div className="add-ingredients">
             <label htmlFor="ingredient">Add Ingredient: </label>
-            <input type="text" ref="ingredient" placeholder="ingredient and quantity" />
-            <button onClick={this.handleAddIngredient}><i className="fa fa-plus"></i></button>
+            <input
+              type="text"
+              ref="ingredient"
+              placeholder="ingredient and quantity"
+            />
+            <button onClick={this.handleAddIngredient}>
+              <i className="fa fa-plus"></i>
+            </button>
           </div>
           <h4>Method</h4>
           {methodSteps}
           <div className="add-method">
             <label htmlFor="method">Add Method Steps: </label>
             <input type="text" ref="method" placeholder="Method" />
-            <button onClick={this.handleAddMethodSteps}><i className="fa fa-plus"></i></button>
+            <button onClick={this.handleAddMethodSteps}>
+              <i className="fa fa-plus"></i>
+            </button>
           </div>
           <div>
             <input type="submit" value="Update Recipe" />
@@ -283,8 +367,9 @@ class EditRecipe extends Component {
         {imageSection}
         {infoMessage}
       </div>
-
-    ) : <Loader />;
+    ) : (
+      <Loader />
+    );
   }
 }
 

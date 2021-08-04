@@ -14,7 +14,7 @@ class UserRecipes extends Component {
     };
   }
 
-  componentWillMount () {
+  componentDidMount () {
     firebase.database().ref(`/users/${this.props.match.params.id}`).once('value', snap => {
       if (snap) {
         let owner = this.props.currentUserUID === this.props.match.params.id ? true : false;

@@ -103,7 +103,7 @@ class MainRouter extends Component {
     })
   }
 
-  componentWillMount () {
+  componentDidMount () {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // Listen for global notifications
