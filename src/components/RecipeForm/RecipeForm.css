@@ -241,6 +241,7 @@ form input#image:focus + label {
 .import-overlay h4 {
   font-size: 2em;
   color: #fff;
+  margin-top: 0;
   margin-bottom: 0.75rem;
 }
 .import-overlay .logo-container {
@@ -248,7 +249,12 @@ form input#image:focus + label {
   justify-content: space-around;
 }
 .import-overlay .logo-container div {
-  flex: 0 1 300px;
+  flex: 0 1 200px;
+}
+@media (min-width: 768px) {
+  .import-overlay .logo-container div {
+    flex: 0 1 400px;
+  }
 }
 .import-overlay .logo-container div img {
   width: 100%;
