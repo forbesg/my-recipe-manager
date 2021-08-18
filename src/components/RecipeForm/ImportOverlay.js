@@ -1,12 +1,15 @@
 import React from "react";
-import bbcGoodFoodLogo from '../../images/bbc-good-food.jpg';
-import Loader from '../Loader';
+import bbcGoodFoodLogo from "../../images/bbc-good-food.jpg";
+import logo from "../../images/sites.jpg";
+import Loader from "../Loader";
 
-function ImportOverlay (props) {
+function ImportOverlay(props) {
   return props.importing ? (
     <div className="import-overlay overlay">
       <div className="loader">
-        <span className="close" onClick={props.close}><i className="fa fa-times"></i></span>
+        <span className="close" onClick={props.close}>
+          <i className="fa fa-times"></i>
+        </span>
         <Loader color="#fff" text="Importing....." />
       </div>
     </div>
@@ -14,17 +17,24 @@ function ImportOverlay (props) {
     <div className="import-overlay overlay">
       <h4>Import Recipe</h4>
       <p>Place the url of a recipe from one of the supported sites below.</p>
-      <span className="close" onClick={props.close}><i className="fa fa-times"></i></span>
+      <span className="close" onClick={props.close}>
+        <i className="fa fa-times"></i>
+      </span>
       <div className="logo-container">
         <div className="bbc">
-          <img src={bbcGoodFoodLogo} alt="BBC Good Food"/>
+          <img src={logo} alt="BBC Good Food" />
           <input type="url" placeholder="BBC Good Food Recipe URL" />
-          <button onClick={(e) => {props.handleClick(e, 'BBC')}}>Import Recipe</button>
+          <button
+            onClick={(e) => {
+              props.handleClick(e, "BBC");
+            }}
+          >
+            Import Recipe
+          </button>
         </div>
       </div>
     </div>
-  )
-
+  );
 }
 
 export default ImportOverlay;

@@ -1,16 +1,21 @@
 export function goodFood(url, cb) {
-  console.log(url);
-  if (!url.match(/(https:\/\/www\.bbcgoodfood\.com\/recipes\/)/)) {
+  if (
+    !url.match(/https:\/\/www.bbcgoodfood\.com\/recipes\//) &&
+    !url.match(/https:\/\/www.bbc.co.uk\/food\/recipes/)
+  ) {
+    console.log("URL", url);
     return cb(
       null,
       null,
-      "Invalid URL - Please Enter a valid BBC Good Food URL"
+      "Invalid URL - Please Enter a valid BBC Good Food or BBC Food URL"
     );
   }
   let recipe = {};
 
   // API URI on Glitch to scrape bbc good food recipes
   let fetchUrl = `https://bbc-food-scraper.glitch.me/api/scrape?url=${url}`;
+
+  console.log(fetchUrl);
 
   fetch(fetchUrl)
     .then((response) => {
@@ -30,7 +35,6 @@ export function goodFood(url, cb) {
       recipe.cookTime = res.time.cook ? res.time.cook.match(/[0-9]+/)[0] : 0;
       recipe.serves = res.serves.match(/[0-9]+/)[0] || 0;
       recipe.methodSteps = res.method;
-      console.log(recipe);
       cb(null, recipe);
     })
     .catch((err) => {

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/database';
-import 'firebase/storage';
-import ImportOverlay from './ImportOverlay';
-import { goodFood } from '../../helpers/import-recipes';
-import './RecipeForm.css';
+import React, { Component } from "react";
+import firebase from "firebase/app";
+import "firebase/database";
+import "firebase/storage";
+import ImportOverlay from "./ImportOverlay";
+import { goodFood } from "../../helpers/import-recipes";
+import "./RecipeForm.css";
 
 class AddRecipe extends Component {
-  constructor () {
+  constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePrepTime = this.handlePrepTime.bind(this);
@@ -24,15 +24,15 @@ class AddRecipe extends Component {
       methodSteps: [],
       infoMessage: null,
       importOverlay: false,
-      importing: false
-    }
+      importing: false,
+    };
   }
 
-  handleImport (e, site) {
+  handleImport(e, site) {
     e.preventDefault();
     this.setState({
       importOverlay: true,
-      importing: true
+      importing: true,
     });
     // return console.log(e, site);
 
@@ -46,14 +46,14 @@ class AddRecipe extends Component {
       if (err) {
         this.setState({
           importOverlay: false,
-          importing: false
+          importing: false,
         });
         return this.handleInfoMessage(err.message);
-      };
+      }
       if (notification) {
         this.setState({
           importOverlay: false,
-          importing: false
+          importing: false,
         });
         return this.handleInfoMessage(notification);
       }
@@ -68,12 +68,12 @@ class AddRecipe extends Component {
         ingredients: data.ingredients,
         methodSteps: data.methodSteps,
         importOverlay: false,
-        importing: false
+        importing: false,
       });
     });
   }
 
-  handleSubmit (e) {
+  handleSubmit(e) {
     e.preventDefault();
     let recipe = {
       name: this.refs.name.value,
@@ -81,13 +81,13 @@ class AddRecipe extends Component {
       cuisine: this.refs.cuisine.value,
       owner: {
         uid: this.props.user.uid,
-        name: this.props.user.displayName
+        name: this.props.user.displayName,
       },
       prepTime: this.refs.prepTime.value,
       cookTime: this.refs.cookTime.value,
       ingredients: this.state.ingredients,
-      methodSteps: this.state.methodSteps
-    }
+      methodSteps: this.state.methodSteps,
+    };
     if (this.refs.image) {
       recipe.image = this.refs.image;
     }
@@ -99,104 +99,128 @@ class AddRecipe extends Component {
         }
       }
     }
-    if (this.state.ingredients.length < 1 || this.state.methodSteps.length < 1) {
-      return this.handleInfoMessage("Recipe requires ingredients and method before submitting");
+    if (
+      this.state.ingredients.length < 1 ||
+      this.state.methodSteps.length < 1
+    ) {
+      return this.handleInfoMessage(
+        "Recipe requires ingredients and method before submitting"
+      );
     }
-    firebase.database().ref('/recipes').push(recipe).then(snap => {
-      firebase.database().ref(`/users/${this.props.user.uid}`).child('/recipes').push(snap.key);
-      this.props.history.push('/recipes');
-    }).catch(err => {
-      console.log(err.message);
-    });
+    firebase
+      .database()
+      .ref("/recipes")
+      .push(recipe)
+      .then((snap) => {
+        firebase
+          .database()
+          .ref(`/users/${this.props.user.uid}`)
+          .child("/recipes")
+          .push(snap.key);
+        this.props.history.push("/recipes");
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
 
-  handleInfoMessage (string) {
+  handleInfoMessage(string) {
     this.setState({
-      infoMessage: string
+      infoMessage: string,
     });
     setTimeout(() => {
       this.setState({
-        infoMessage: null
+        infoMessage: null,
       });
     }, 3000);
   }
 
-  handlePrepTime () {
+  handlePrepTime() {
     this.setState({
-      prepTime: this.refs.prepTime.value
+      prepTime: this.refs.prepTime.value,
     });
   }
 
-  handleCookTime () {
+  handleCookTime() {
     this.setState({
-      cookTime: this.refs.cookTime.value
+      cookTime: this.refs.cookTime.value,
     });
   }
 
-  handleAddIngredient (e) {
+  handleAddIngredient(e) {
     e.preventDefault();
     let ingredientsArray = this.state.ingredients;
     if (ingredientsArray.indexOf(this.refs.ingredient.value) > -1) {
-      return console.log('Ingredient is already on the list')
+      return console.log("Ingredient is already on the list");
     }
     if (this.refs.ingredient.value.length < 1) {
-      return console.log('Please enter an ingredient')
+      return console.log("Please enter an ingredient");
     }
     ingredientsArray.push(this.refs.ingredient.value);
     this.setState({
-      ingredients: ingredientsArray
-    })
+      ingredients: ingredientsArray,
+    });
     this.refs.ingredient.value = "";
   }
 
-  handleAddMethodSteps (e) {
+  handleAddMethodSteps(e) {
     e.preventDefault();
     let methodArray = this.state.methodSteps;
     if (methodArray.indexOf(this.refs.method.value) > -1) {
-      return console.log('Method is already on the list');
+      return console.log("Method is already on the list");
     }
     if (this.refs.method.value.length < 1) {
-      return console.log('Please enter an method, it cannot be blank');
+      return console.log("Please enter an method, it cannot be blank");
     }
     methodArray.push(this.refs.method.value);
     this.setState({
-      methodSteps: methodArray
-    })
+      methodSteps: methodArray,
+    });
     this.refs.method.value = "";
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     // Clear timeout function before unmounting
   }
 
-  render () {
-    let ingredients = this.state.ingredients.length > 0 ? this.state.ingredients.map((ingredient, index) => {
-      return (
-        <div className="list-item" key={index}>
-          <p>{ingredient}</p>
-        </div>
-      );
-    }) : null;
+  render() {
+    let ingredients =
+      this.state.ingredients.length > 0
+        ? this.state.ingredients.map((ingredient, index) => {
+            return (
+              <div className="list-item" key={index}>
+                <p>{ingredient}</p>
+              </div>
+            );
+          })
+        : null;
 
-    let methodSteps = this.state.methodSteps.length > 0 ? this.state.methodSteps.map((method, index) => {
-      return (
-        <div className="list-item" key={index}>
-          <p>{method}</p>
-        </div>
-      );
-    }) : null;
+    let methodSteps =
+      this.state.methodSteps.length > 0
+        ? this.state.methodSteps.map((method, index) => {
+            return (
+              <div className="list-item" key={index}>
+                <p>{method}</p>
+              </div>
+            );
+          })
+        : null;
 
     let infoMessage = this.state.infoMessage ? (
       <div className="validation-warning">{this.state.infoMessage}</div>
     ) : null;
 
     let importOverlay = this.state.importOverlay ? (
-      <ImportOverlay handleClick={this.handleImport} importing={this.state.importing} close={() => {
-        this.setState({
-          importOverlay: false,
-          importing: false
-        });
-      }} />
+      <ImportOverlay
+        handleClick={this.handleImport}
+        importing={this.state.importing}
+        close={() => {
+          this.setState({
+            importOverlay: false,
+            importing: false,
+          });
+        }}
+      />
     ) : null;
 
     return (
@@ -206,9 +230,12 @@ class AddRecipe extends Component {
           <h1>Add Recipe</h1>
           <div className="import">
             <h6>Import Recipe</h6>
-            <div className="icon" onClick={() => {
-                this.setState({importOverlay: !this.state.importOverlay});
-              }}>
+            <div
+              className="icon"
+              onClick={() => {
+                this.setState({ importOverlay: !this.state.importOverlay });
+              }}
+            >
               <i className="fa fa-plus"></i>
             </div>
           </div>
@@ -220,7 +247,14 @@ class AddRecipe extends Component {
           </div>
           <div>
             <label htmlFor="serves">Serves:</label>
-            <input type="number" min="1" max="16" ref="serves" defaultValue="1" placeholder="Number of Servings" />
+            <input
+              type="number"
+              min="1"
+              max="16"
+              ref="serves"
+              defaultValue="1"
+              placeholder="Number of Servings"
+            />
           </div>
           <div>
             <label htmlFor="cuisine">Cuisine:</label>
@@ -238,27 +272,51 @@ class AddRecipe extends Component {
           </div>
           <div>
             <label htmlFor="prepTime">Preparation Time (minutes)</label>
-            <input type="range" min="0" max="360" step="5" defaultValue="0" ref="prepTime" onChange={this.handlePrepTime} />
+            <input
+              type="range"
+              min="0"
+              max="360"
+              step="5"
+              defaultValue="0"
+              ref="prepTime"
+              onChange={this.handlePrepTime}
+            />
           </div>
           <p className="minutes">{this.state.prepTime} minutes</p>
           <div>
             <label htmlFor="cookTime">Cooking Time (minutes)</label>
-            <input type="range" min="0" max="360" step="5" defaultValue="0" ref="cookTime" onChange={this.handleCookTime} />
+            <input
+              type="range"
+              min="0"
+              max="360"
+              step="5"
+              defaultValue="0"
+              ref="cookTime"
+              onChange={this.handleCookTime}
+            />
           </div>
           <p className="minutes">{this.state.cookTime} minutes</p>
           <h4>Ingredients</h4>
           {ingredients}
           <div className="add-ingredients">
             <label htmlFor="ingredient">Add Ingredient: </label>
-            <input type="text" ref="ingredient" placeholder="ingredient and quantity" />
-            <button onClick={this.handleAddIngredient}><i className="fa fa-plus"></i></button>
+            <input
+              type="text"
+              ref="ingredient"
+              placeholder="ingredient and quantity"
+            />
+            <button onClick={this.handleAddIngredient}>
+              <i className="fa fa-plus"></i>
+            </button>
           </div>
           <h4>Method</h4>
           {methodSteps}
           <div className="add-method">
             <label htmlFor="method">Add Method Steps: </label>
             <input type="text" ref="method" placeholder="Method" />
-            <button onClick={this.handleAddMethodSteps}><i className="fa fa-plus"></i></button>
+            <button onClick={this.handleAddMethodSteps}>
+              <i className="fa fa-plus"></i>
+            </button>
           </div>
           <div>
             <input type="submit" value="Add Recipe" />
@@ -266,7 +324,6 @@ class AddRecipe extends Component {
         </form>
         {infoMessage}
       </div>
-
     );
   }
 }
