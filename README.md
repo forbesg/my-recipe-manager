@@ -2,6 +2,8 @@
 
 ## Manage, Share and fork Recipes
 
+### Import recipes from BBC Good Food and BBC Food Websites
+
 Built using [React (create-react-app)](https://github.com/facebookincubator/create-react-app) and [Firebase](https://firebase.google.com) Realtime database, Storage, Hosting and Cloud Functions.
 
 Create Firebase config object from /src/firebase/config.js and export (or change location and update import statement in /src/firebase/firebase-init.js).
@@ -54,7 +56,6 @@ To deploy to Firebase Hosting:
 firebase deploy
 ```
 
-
 #### TODO
 
 - ~~Remove Images on Recipe Delete~~
@@ -65,6 +66,5 @@ firebase deploy
 - Implement Fork functionality
 
 View Demo @ [https://my-recipe-manager.firebaseapp.com](https://my-recipe-manager.firebaseapp.com)
-
 
 Author Forbes Gray <fnbg75@gmail.com>
