@@ -69,6 +69,9 @@ class Recipes extends Component {
                       console.log("Updated thumbnail url");
                     })
                     .catch((err) => {
+                      /**
+                       * // TODO: Should delete reference of the thumbnail on th recipe if it is not found
+                       */
                       console.log(err.message);
                     });
                 })

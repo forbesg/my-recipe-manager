@@ -1,37 +1,47 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import SideBarNav from '../SideBarNav/SideBarNav';
-import Home from '../Home/Home';
-import Recipes from '../Recipes/Recipes';
-import Recipe from '../Recipes/Recipe';
-import AddRecipe from '../RecipeForm/AddRecipe';
-import EditRecipe from '../RecipeForm/EditRecipe';
-import UserRecipes from '../UserRecipes/UserRecipes';
-import UserFavoriteRecipes from '../UserRecipes/UserFavoriteRecipes';
-import Dashboard from '../Dashboard/Dashboard';
-import Notification from './Notification';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
+import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  NavLink,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+import SideBarNav from "../SideBarNav/SideBarNav";
+import Home from "../Home/Home";
+import Recipes from "../Recipes/Recipes";
+import Recipe from "../Recipes/Recipe";
+import AddRecipe from "../RecipeForm/AddRecipe";
+import EditRecipe from "../RecipeForm/EditRecipe";
+import UserRecipes from "../UserRecipes/UserRecipes";
+import UserFavoriteRecipes from "../UserRecipes/UserFavoriteRecipes";
+import Dashboard from "../Dashboard/Dashboard";
+import Notification from "./Notification";
+import FixedMobileNav from "./FixedMobileNav";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/database";
 
 let NoMatch = () => {
   return (
-    <div className="no-match" style={{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100%'
-    }}>
+    <div
+      className="no-match"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+      }}
+    >
       <h1>404</h1>
       <hr />
       <h2>Page Not Found</h2>
     </div>
   );
-}
+};
 
 class MainRouter extends Component {
-  constructor () {
+  constructor() {
     super();
     this.handleNavOpen = this.handleNavOpen.bind(this);
     this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
@@ -42,114 +52,140 @@ class MainRouter extends Component {
       navOpen: false,
       user: null,
       notification: null,
-      globalNotification: null
-    }
+      globalNotification: null,
+    };
   }
 
-  handleNavOpen (e) {
+  handleNavOpen(e) {
     e.preventDefault();
     this.setState({
-      navOpen: !this.state.navOpen
+      navOpen: !this.state.navOpen,
     });
   }
 
-  handleCloseNav (e) {
+  handleCloseNav(e) {
     e.preventDefault();
     this.setState({
-      navOpen: false
+      navOpen: false,
     });
   }
 
-  handleNotification (notification) {
+  handleNotification(notification) {
     this.setState({
-      notification
+      notification,
     });
     setTimeout(() => {
       this.setState({
-        notification: null
+        notification: null,
       });
-    }, 3000)
+    }, 3000);
   }
 
-  handleGoogleLogin (e) {
+  handleGoogleLogin(e) {
     e.preventDefault();
-    console.log('Logging in with Google');
+    console.log("Logging in with Google");
     const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(result => {
-      console.log('Success, Signed in with Google');
-      let user = result.user.providerData[0];
-      let usersRef = firebase.database().ref('/users');
-      usersRef.child(`${user.uid}`).once('value', snap => {
-        if (snap.exists()) {
-          return console.log('User already exists - Not adding to DB')
-        }
-        usersRef.child(`${user.uid}`).set(user).then((result) => {
-          console.log('New User Added');
-        }).catch(err => {
-          console.log(err.message);
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        console.log("Success, Signed in with Google");
+        let user = result.user.providerData[0];
+        let usersRef = firebase.database().ref("/users");
+        usersRef.child(`${user.uid}`).once("value", (snap) => {
+          if (snap.exists()) {
+            return console.log("User already exists - Not adding to DB");
+          }
+          usersRef
+            .child(`${user.uid}`)
+            .set(user)
+            .then((result) => {
+              console.log("New User Added");
+            })
+            .catch((err) => {
+              console.log(err.message);
+            });
         });
+      })
+      .catch((err) => {
+        console.log("Error with Google Sign In", err.message);
       });
-    }).catch(err => {
-      console.log('Error with Google Sign In', err.message);
-    })
   }
 
-  handleLogout (e) {
+  handleLogout(e) {
     e.preventDefault();
-    firebase.auth().signOut().then(() => {
-      console.log('Successfully Logged Out');
-    }).catch(err => {
-      console.log(err.message);
-    })
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        console.log("Successfully Logged Out");
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
 
-  componentDidMount () {
-    firebase.auth().onAuthStateChanged(user => {
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // Listen for global notifications
-        firebase.database().ref('/notification').on('value', snap => {
-          if (snap.val()) {
-            this.setState({
-              globalNotification: snap.val()
-            });
-            setTimeout(() => {
-              this.setState({
-                globalNotification: null
-              })
-            }, 3000);
-          }
-        }, err => {
-          console.error(err.message);
-        });
+        firebase
+          .database()
+          .ref("/notification")
+          .on(
+            "value",
+            (snap) => {
+              if (snap.val()) {
+                this.setState({
+                  globalNotification: snap.val(),
+                });
+                setTimeout(() => {
+                  this.setState({
+                    globalNotification: null,
+                  });
+                }, 3000);
+              }
+            },
+            (err) => {
+              console.error(err.message);
+            }
+          );
 
         return this.setState({
-          user: user.providerData[0]
+          user: user.providerData[0],
         });
       }
       this.setState({
-        user: null
+        user: null,
       });
     });
   }
 
-  componentWillUnmount () {
-    firebase.database().ref('/notification').off();
+  componentWillUnmount() {
+    firebase.database().ref("/notification").off();
   }
 
-  render () {
+  render() {
     let navOpenClass = this.state.navOpen ? " nav-open" : "";
     let notification = this.state.notification ? (
-      <Notification notification={this.state.notification}/>
+      <Notification notification={this.state.notification} />
     ) : null;
-    let globalNotification = this.state.globalNotification && this.state.globalNotification.user !== this.state.user.uid ? (
-      <Notification notification={this.state.globalNotification.message}/>
-    ) : null;
+    let globalNotification =
+      this.state.globalNotification &&
+      this.state.globalNotification.user !== this.state.user.uid ? (
+        <Notification notification={this.state.globalNotification.message} />
+      ) : null;
 
     return (
       <Router>
         <div className="router">
-          <SideBarNav user={this.state.user} loginWithGoogle={this.handleGoogleLogin} logout={this.handleLogout} closeNav={this.handleCloseNav} />
-          <div className={`main-body${navOpenClass}`} >
+          <SideBarNav
+            user={this.state.user}
+            loginWithGoogle={this.handleGoogleLogin}
+            logout={this.handleLogout}
+            closeNav={this.handleCloseNav}
+          />
+          <div className={`main-body${navOpenClass}`}>
             {notification}
             {globalNotification}
             <div className="menu-toggle" onClick={this.handleNavOpen}>
@@ -158,55 +194,91 @@ class MainRouter extends Component {
               <span className="bar"></span>
             </div>
             <Switch>
-              <Route exact path='/' component={Home} />
-              <Route exact path='/recipes' component={Recipes}/>
-              <Route exact path='/recipes/add' render={({...rest}) => {
-                return this.state.user ? (
-                  <AddRecipe user={this.state.user} {...rest} />
-                ) : (
-                  <Redirect to='/' />
-                )
-              }} />
-              <Route path='/recipes/:id/edit' render={({...rest}) => {
-                return this.state.user ? (
-                  <EditRecipe user={this.state.user} {...rest} />
-                ) : (
-                  <Redirect to='/' />
-                )
-              }} />
-              <Route path='/recipes/:id' render={({...rest}) => {
-                let user = this.state.user || null;
-                return <Recipe user={user} handleNotification={this.handleNotification} {...rest} />;
-              }} />
-              <Route path='/user/:id/dashboard' render={({...rest}) => {
-                return this.state.user ? this.state.user.uid === rest.match.params.id ? (
-                  <Dashboard user={this.state.user} />
-                ) : (
-                  <Redirect to='/' />
-                ) : (
-                  <Redirect to='/' />
-                )
-              }} />
-              <Route path="/user/:id/recipes" render={({...rest}) => {
-                return this.state.user ? (
-                  <UserRecipes currentUserUID={this.state.user.uid} {...rest} />
-                ): (
-                  <Redirect to="/" />
-                )
-              }} />
-              <Route path="/user/:id/favorites" render={({...rest}) => {
-                return this.state.user ? (
-                  <UserFavoriteRecipes currentUserUID={this.state.user.uid} {...rest} />
-                ): (
-                  <Redirect to="/" />
-                )
-              }} />
+              <Route exact path="/" component={Home} />
+              <Route exact path="/recipes" component={Recipes} />
+              <Route
+                exact
+                path="/recipes/add"
+                render={({ ...rest }) => {
+                  return this.state.user ? (
+                    <AddRecipe user={this.state.user} {...rest} />
+                  ) : (
+                    <Redirect to="/" />
+                  );
+                }}
+              />
+              <Route
+                path="/recipes/:id/edit"
+                render={({ ...rest }) => {
+                  return this.state.user ? (
+                    <EditRecipe user={this.state.user} {...rest} />
+                  ) : (
+                    <Redirect to="/" />
+                  );
+                }}
+              />
+              <Route
+                path="/recipes/:id"
+                render={({ ...rest }) => {
+                  let user = this.state.user || null;
+                  return (
+                    <Recipe
+                      user={user}
+                      handleNotification={this.handleNotification}
+                      {...rest}
+                    />
+                  );
+                }}
+              />
+              <Route
+                path="/user/:id/dashboard"
+                render={({ ...rest }) => {
+                  return this.state.user ? (
+                    this.state.user.uid === rest.match.params.id ? (
+                      <Dashboard user={this.state.user} />
+                    ) : (
+                      <Redirect to="/" />
+                    )
+                  ) : (
+                    <Redirect to="/" />
+                  );
+                }}
+              />
+              <Route
+                path="/user/:id/recipes"
+                render={({ ...rest }) => {
+                  return this.state.user ? (
+                    <UserRecipes
+                      currentUserUID={this.state.user.uid}
+                      {...rest}
+                    />
+                  ) : (
+                    <Redirect to="/" />
+                  );
+                }}
+              />
+              <Route
+                path="/user/:id/favorites"
+                render={({ ...rest }) => {
+                  return this.state.user ? (
+                    <UserFavoriteRecipes
+                      currentUserUID={this.state.user.uid}
+                      {...rest}
+                    />
+                  ) : (
+                    <Redirect to="/" />
+                  );
+                }}
+              />
               <Route path="*" component={NoMatch} />
             </Switch>
           </div>
+          <FixedMobileNav
+            user={this.state.user}
+            closeNav={this.handleCloseNav}
+          />
         </div>
       </Router>
-
     );
   }
 }
